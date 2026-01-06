@@ -21,62 +21,25 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".pdf-button-container").appendChild(btn);
   btn.onclick = () => {
     const aulas = [
-      { day:6, hour:9, ufcd:"CD_B2_C" },
-      { day:6, hour:10, ufcd:"CD_B2_C" },
-      { day:6, hour:11, ufcd:"CD_B2_C" },
-      { day:7, hour:13, ufcd:"CD_B2_C" },
-      { day:7, hour:14, ufcd:"CD_B2_C" },
-      { day:7, hour:15, ufcd:"CD_B2_C" },
-      { day:7, hour:16, ufcd:"CD_B2_C" },
-      { day:8, hour:10, ufcd:"CD_B2_C" },
-      { day:8, hour:11, ufcd:"CD_B2_C" },
-      { day:8, hour:12, ufcd:"CD_B2_C" },
-      { day:9, hour:13, ufcd:"CD_B2_C" },
-      { day:9, hour:14, ufcd:"CD_B2_C" },
-      { day:9, hour:15, ufcd:"CD_B2_C" },
-      { day:9, hour:16, ufcd:"CD_B2_C" },
-      { day:12, hour:9, ufcd:"CD_B2_C" },
-      { day:12, hour:10, ufcd:"CD_B2_C" },
-      { day:12, hour:11, ufcd:"CD_B2_C" },
-      { day:13, hour:9, ufcd:"CD_B2_C" },
-      { day:13, hour:10, ufcd:"CD_B2_C" },
-      { day:13, hour:11, ufcd:"CD_B2_C" },
-      { day:14, hour:13, ufcd:"CD_B2_D" },
-      { day:14, hour:14, ufcd:"CD_B2_D" },
-      { day:14, hour:15, ufcd:"CD_B2_D" },
-      { day:14, hour:16, ufcd:"CD_B2_D" },
-      { day:15, hour:10, ufcd:"CD_B2_D" },
-      { day:15, hour:11, ufcd:"CD_B2_D" },
-      { day:15, hour:12, ufcd:"CD_B2_D" },
-      { day:16, hour:13, ufcd:"CD_B2_D" },
-      { day:16, hour:14, ufcd:"CD_B2_D" },
-      { day:16, hour:15, ufcd:"CD_B2_D" },
-      { day:16, hour:16, ufcd:"CD_B2_D" },
-      { day:20, hour:9, ufcd:"CD_B2_D" },
-      { day:20, hour:10, ufcd:"CD_B2_D" },
-      { day:20, hour:11, ufcd:"CD_B2_D" },
-      { day:21, hour:13, ufcd:"CD_B2_D" },
-      { day:21, hour:14, ufcd:"CD_B2_D" },
-      { day:21, hour:15, ufcd:"CD_B2_D" },
-      { day:21, hour:16, ufcd:"CD_B2_D" },
-      { day:22, hour:10, ufcd:"CD_B2_D" },
-      { day:22, hour:11, ufcd:"CD_B2_D" },
-      { day:22, hour:12, ufcd:"CD_B2_D" },
-      { day:23, hour:10, ufcd:"CD_B2_D" },
-      { day:23, hour:11, ufcd:"CD_B2_D" },
-      { day:23, hour:12, ufcd:"CD_B2_D" }
+      { day:6, hour:9, ufcd:"CD_B2_C" },{ day:6, hour:10, ufcd:"CD_B2_C" },{ day:6, hour:11, ufcd:"CD_B2_C" },
+      { day:7, hour:13, ufcd:"CD_B2_C" },{ day:7, hour:14, ufcd:"CD_B2_C" },{ day:7, hour:15, ufcd:"CD_B2_C" },{ day:7, hour:16, ufcd:"CD_B2_C" },
+      { day:8, hour:10, ufcd:"CD_B2_C" },{ day:8, hour:11, ufcd:"CD_B2_C" },{ day:8, hour:12, ufcd:"CD_B2_C" },
+      { day:9, hour:13, ufcd:"CD_B2_C" },{ day:9, hour:14, ufcd:"CD_B2_C" },{ day:9, hour:15, ufcd:"CD_B2_C" },{ day:9, hour:16, ufcd:"CD_B2_C" },
+      { day:12, hour:9, ufcd:"CD_B2_C" },{ day:12, hour:10, ufcd:"CD_B2_C" },{ day:12, hour:11, ufcd:"CD_B2_C" },
+      { day:13, hour:9, ufcd:"CD_B2_C" },{ day:13, hour:10, ufcd:"CD_B2_C" },{ day:13, hour:11, ufcd:"CD_B2_C" },
+      { day:14, hour:13, ufcd:"CD_B2_D" },{ day:14, hour:14, ufcd:"CD_B2_D" },{ day:14, hour:15, ufcd:"CD_B2_D" },{ day:14, hour:16, ufcd:"CD_B2_D" },
+      { day:15, hour:10, ufcd:"CD_B2_D" },{ day:15, hour:11, ufcd:"CD_B2_D" },{ day:15, hour:12, ufcd:"CD_B2_D" },
+      { day:16, hour:13, ufcd:"CD_B2_D" },{ day:16, hour:14, ufcd:"CD_B2_D" },{ day:16, hour:15, ufcd:"CD_B2_D" },{ day:16, hour:16, ufcd:"CD_B2_D" },
+      { day:20, hour:9, ufcd:"CD_B2_D" },{ day:20, hour:10, ufcd:"CD_B2_D" },{ day:20, hour:11, ufcd:"CD_B2_D" },
+      { day:21, hour:13, ufcd:"CD_B2_D" },{ day:21, hour:14, ufcd:"CD_B2_D" },{ day:21, hour:15, ufcd:"CD_B2_D" },{ day:21, hour:16, ufcd:"CD_B2_D" },
+      { day:22, hour:10, ufcd:"CD_B2_D" },{ day:22, hour:11, ufcd:"CD_B2_D" },{ day:22, hour:12, ufcd:"CD_B2_D" },
+      { day:23, hour:10, ufcd:"CD_B2_D" },{ day:23, hour:11, ufcd:"CD_B2_D" },{ day:23, hour:12, ufcd:"CD_B2_D" }
     ];
-    let ics =
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT
-CALSCALE:GREGORIAN
-`;
+    let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT\nCALSCALE:GREGORIAN\n";
     aulas.forEach(a => {
       const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
       const end = `202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000`;
-      ics +=
-`BEGIN:VEVENT
+      ics += `BEGIN:VEVENT
 DTSTART:${start}
 DTEND:${end}
 SUMMARY:Aula de Competências Digitais – ${a.ufcd}
@@ -87,10 +50,9 @@ TRIGGER:-PT2H
 ACTION:DISPLAY
 DESCRIPTION:Lembrete: Aula de Competências Digitais às ${a.hour}:00
 END:VALARM
-END:VEVENT
-`;
+END:VEVENT\n`;
     });
-    ics += `END:VCALENDAR`;
+    ics += "END:VCALENDAR";
     const blob = new Blob([ics], { type: "text/calendar" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -160,28 +122,15 @@ footer a:hover{color:#ffffff;text-decoration:underline}
 
 <div class="digital-clock"><div id="clockDisplay">A carregar horário...</div></div>
 
-<!-- ===== TABELA DE HORÁRIOS COMPLETA ===== -->
+<!-- ===== TABELA COMPLETA DO HORÁRIO ===== -->
 <div class="calendar-container">
 <table class="calendar" id="scheduleTable">
-<!-- Mantém toda a tua tabela com cores, spans e IDs exatamente como tens no teu último código -->
+<!-- Coloca aqui **todas as linhas e células do teu último código**, mantendo cores, spans e IDs -->
+<!-- Começo da tabela -->
 <tbody>
-<tr>
-<td class="time-col">09–10</td>
-<td class="green cell" id="d6-9"><span>CD_B2_C</span></td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="green cell" id="d12-9"><span>CD_B2_C</span></td>
-<td class="green cell" id="d13-9"><span>CD_B2_C</span></td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="orange cell" id="d20-9"><span>CD_B2_D</span></td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="white"></td>
-</tr>
-<!-- continua com todas as linhas do teu horário ... -->
+<tr><td class="time-col">09–10</td><td class="green cell" id="d6-9"><span>CD_B2_C</span></td><td class="white"></td><td class="white"></td><td class="white"></td><td class="green cell" id="d12-9"><span>CD_B2_C</span></td><td class="green cell" id="d13-9"><span>CD_B2_C</span></td><td class="white"></td><td class="white"></td><td class="white"></td><td class="orange cell" id="d20-9"><span>CD_B2_D</span></td><td class="white"></td><td class="white"></td><td class="white"></td></tr>
+<tr><td class="time-col">10–11</td><td class="green cell" id="d6-10"><span>CD_B2_C</span></td><td class="white"></td><td class="green cell" id="d8-10"><span>CD_B2_C</span></td><td class="white"></td><td class="green cell" id="d12-10"><span>CD_B2_C</span></td><td class="green cell" id="d13-10"><span>CD_B2_C</span></td><td class="white"></td><td class="orange cell" id="d15-10"><span>CD_B2_D</span></td><td class="white"></td><td class="orange cell" id="d20-10"><span>CD_B2_D</span></td><td class="white"></td><td class="orange cell" id="d22-10"><span>CD_B2_D</span></td><td class="orange cell" id="d23-10"><span>CD_B2_D</span></td></tr>
+<!-- Continua todas as linhas do teu último código até 16-17 -->
 </tbody>
 </table>
 </div>
@@ -203,48 +152,17 @@ footer a:hover{color:#ffffff;text-decoration:underline}
 <footer>© 2026 – CCD 49/2025 | Email: <a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a></footer>
 
 <script>
-/* ===== RELÓGIO, CONTAGEM, PDF ===== */
-// Mantém todas as tuas funções originais: getLisbonTime(), tick(), calcularHoras(), downloadPdf.onclick ...
-
-/* ===== JOGO DO GALO ===== */
+// Mantém todas as tuas funções originais: tick(), calcularHoras(), downloadPdf...
+// Jogo do Galo
 const galo=document.getElementById("galo");
 const statusG=document.getElementById("galoStatus");
 let board,turn;
-
-function init(){
-  galo.innerHTML="";
-  board=Array(9).fill("");
-  turn="X";
-  statusG.textContent="";
-  galo.style.pointerEvents="auto";
-  for(let i=0;i<9;i++){
-    const c=document.createElement("div");
-    c.className="cell";
-    c.onclick=()=>play(i,c);
-    galo.appendChild(c);
-  }
-}
-function play(i,c){
-  if(board[i])return;
-  board[i]=turn;
-  c.textContent=turn;
-  if(win()){
-    statusG.textContent=`${turn} venceu!`;
-    galo.style.pointerEvents="none";
-  }else turn=turn==="X"?"O":"X";
-}
-function win(){
-  const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  return w.some(a=>a.every(i=>board[i]===turn));
-}
-function resetGalo(){ init(); }
+function init(){galo.innerHTML="";board=Array(9).fill("");turn="X";statusG.textContent="";galo.style.pointerEvents="auto";for(let i=0;i<9;i++){const c=document.createElement("div");c.className="cell";c.onclick=()=>play(i,c);galo.appendChild(c);}}
+function play(i,c){if(board[i])return;board[i]=turn;c.textContent=turn;if(win()){statusG.textContent=`${turn} venceu!`;galo.style.pointerEvents="none";}else turn=turn==="X"?"O":"X";}
+function win(){const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return w.some(a=>a.every(i=>board[i]===turn));}
+function resetGalo(){init();}
 init();
-
-/* ===== MOSTRAR / ESCONDER JOGO ===== */
-function toggleGalo(){
-  const box=document.getElementById("galoBox");
-  box.style.display=box.style.display==="none"?"block":"none";
-}
+function toggleGalo(){const box=document.getElementById("galoBox");box.style.display=box.style.display==="none"?"block":"none";}
 </script>
 </body>
 </html>
