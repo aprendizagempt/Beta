@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cronograma Janeiro 2026 – CCD 49/2025</title>
 
+<!-- ================= ICS ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -25,55 +26,44 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.onclick = () => {
 
     const aulas = [
-      { day:6,  hour:9,  ufcd:"CD_B2_C" },
-      { day:7,  hour:13, ufcd:"CD_B2_C" },
-      { day:8,  hour:10, ufcd:"CD_B2_C" },
-      { day:9,  hour:13, ufcd:"CD_B2_C" },
-      { day:12, hour:9,  ufcd:"CD_B2_C" },
-      { day:13, hour:9,  ufcd:"CD_B2_C" },
-      { day:14, hour:13, ufcd:"CD_B2_D" },
-      { day:15, hour:10, ufcd:"CD_B2_D" },
-      { day:16, hour:13, ufcd:"CD_B2_D" },
-      { day:20, hour:9,  ufcd:"CD_B2_D" },
-      { day:21, hour:13, ufcd:"CD_B2_D" },
-      { day:22, hour:10, ufcd:"CD_B2_D" },
-      { day:23, hour:10, ufcd:"CD_B2_D" }
+      {day:6, hour:9},{day:7, hour:13},{day:8, hour:10},{day:9, hour:13},
+      {day:12, hour:9},{day:13, hour:9},{day:14, hour:13},{day:15, hour:10},
+      {day:16, hour:13},{day:20, hour:9},{day:21, hour:13},
+      {day:22, hour:10},{day:23, hour:10}
     ];
 
     let ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT
+PRODID:-//IEFP CCD 49/2025//Janeiro 2026//PT
 CALSCALE:GREGORIAN
 `;
 
-    aulas.forEach(a => {
-      const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
-      const end   = `202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000`;
-
-      ics +=
+    aulas.forEach(a=>{
+      const start=`202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
+      const end=`202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000`;
+      ics+=
 `BEGIN:VEVENT
 DTSTART:${start}
 DTEND:${end}
-SUMMARY:Aula de Competências Digitais – ${a.ufcd}
-DESCRIPTION:CCD 49/2025 – Proficiência Digital – Nível Básico
+SUMMARY:Aula de Competências Digitais
 LOCATION:4NOW – Viseu
 BEGIN:VALARM
 TRIGGER:-PT2H
 ACTION:DISPLAY
-DESCRIPTION:Lembrete: Aula de Competências Digitais às ${a.hour}:00
+DESCRIPTION:Lembrete: Aula às ${a.hour}:00
 END:VALARM
 END:VEVENT
 `;
     });
 
-    ics += `END:VCALENDAR`;
+    ics+=`END:VCALENDAR`;
 
-    const blob = new Blob([ics], { type: "text/calendar" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "Cronograma_Janeiro_2026_CCD49.ics";
+    const blob=new Blob([ics],{type:"text/calendar"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="Cronograma_Janeiro_2026_CCD49.ics";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -83,37 +73,35 @@ END:VEVENT
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+<!-- ================= CSS ================= -->
 <style>
 body{font-family:Helvetica,Arial,sans-serif;background:#f5f5f5;margin:0}
 header{background:#2c3e50;color:#fff;text-align:center;padding:14px}
-header h1{font-size:20px;margin:6px 0}
-header h2{font-size:16px;margin:4px 0;font-weight:normal}
+header h1{margin:6px 0}
 .digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold}
-.typewriter{white-space:nowrap;overflow:hidden;animation:typing 16s steps(160,end) infinite}
+.typewriter{white-space:nowrap;overflow:hidden;animation:typing 18s steps(180,end) infinite}
 @keyframes typing{from{width:0}to{width:100%}}
 .pdf-button-container{text-align:center;margin:12px}
 #downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-weight:bold;cursor:pointer}
-.calendar-container{overflow-x:auto}
 .calendar{border-collapse:collapse;min-width:700px;background:#fff;margin:auto}
 .calendar th,.calendar td{border:1px solid #ccc;padding:6px;text-align:center;font-size:12px}
 .header{background:#b39d74;color:#fff}
 .time-col{background:#eee;font-weight:bold}
 .green{background:#ccffcc}
-.orange{background:#ffcc99}
 .white{background:#fff}
 .blinking{animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;font-size:12px}
 footer a{color:#7ecbff;text-decoration:none}
-footer a:hover{color:#fff;text-decoration:underline}
+footer a:hover{color:#fff}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1><strong>Cronograma Janeiro 2026</strong></h1>
-<h2>CCD 49/2025 – Proficiência Digital – Nível Básico</h2>
+<h1>Cronograma Janeiro 2026</h1>
+<div>CCD 49/2025 – Proficiência Digital – Nível Básico</div>
 <div>4NOW – Viseu</div>
 </header>
 
@@ -122,10 +110,9 @@ footer a:hover{color:#fff;text-decoration:underline}
 </div>
 
 <div class="digital-clock">
-<div id="clockDisplay" class="typewriter">A carregar horário...</div>
+<div id="clockDisplay" class="typewriter">A carregar horário…</div>
 </div>
 
-<div class="calendar-container">
 <table class="calendar" id="scheduleTable">
 <thead>
 <tr>
@@ -137,31 +124,66 @@ footer a:hover{color:#fff;text-decoration:underline}
 </thead>
 <tbody>
 
+<tr><td class="time-col">09–10</td>
+<td class="green cell" id="d6-9"></td><td></td><td></td><td></td>
+<td class="green cell" id="d12-9"></td><td class="green cell" id="d13-9"></td><td></td>
+<td></td><td></td><td class="green cell" id="d20-9"></td><td></td><td></td><td></td>
+</tr>
+
+<tr><td class="time-col">10–11</td>
+<td class="green cell" id="d6-10"></td><td></td><td class="green cell" id="d8-10"></td><td></td>
+<td class="green cell" id="d12-10"></td><td class="green cell" id="d13-10"></td><td></td>
+<td class="green cell" id="d15-10"></td><td></td><td class="green cell" id="d20-10"></td>
+<td></td><td class="green cell" id="d22-10"></td><td class="green cell" id="d23-10"></td>
+</tr>
+
+<tr><td class="time-col">11–12</td>
+<td class="green cell" id="d6-11"></td><td></td><td class="green cell" id="d8-11"></td><td></td>
+<td class="green cell" id="d12-11"></td><td class="green cell" id="d13-11"></td><td></td>
+<td class="green cell" id="d15-11"></td><td></td><td class="green cell" id="d20-11"></td>
+<td></td><td class="green cell" id="d22-11"></td><td class="green cell" id="d23-11"></td>
+</tr>
+
 <tr><td class="time-col">12–13</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="green cell" id="d8-12"><span>CD_B2_C</span></td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="orange cell" id="d15-12"><span>CD_B2_D</span></td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="orange cell" id="d22-12"><span>CD_B2_D</span></td>
-<td class="orange cell" id="d23-12"><span>CD_B2_D</span></td>
+<td class="white">Almoço</td><td class="white">Almoço</td><td class="green cell" id="d8-12"></td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="green cell" id="d15-12"></td><td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="green cell" id="d22-12"></td><td class="green cell" id="d23-12"></td>
+</tr>
+
+<tr><td class="time-col">13–14</td>
+<td></td><td class="green cell" id="d7-13"></td><td></td><td class="green cell" id="d9-13"></td>
+<td></td><td></td><td class="green cell" id="d14-13"></td><td></td>
+<td class="green cell" id="d16-13"></td><td></td><td class="green cell" id="d21-13"></td><td></td><td></td>
+</tr>
+
+<tr><td class="time-col">14–15</td>
+<td></td><td class="green cell" id="d7-14"></td><td></td><td class="green cell" id="d9-14"></td>
+<td></td><td></td><td class="green cell" id="d14-14"></td><td></td>
+<td class="green cell" id="d16-14"></td><td></td><td class="green cell" id="d21-14"></td><td></td><td></td>
+</tr>
+
+<tr><td class="time-col">15–16</td>
+<td></td><td class="green cell" id="d7-15"></td><td></td><td class="green cell" id="d9-15"></td>
+<td></td><td></td><td class="green cell" id="d14-15"></td><td></td>
+<td class="green cell" id="d16-15"></td><td></td><td class="green cell" id="d21-15"></td><td></td><td></td>
+</tr>
+
+<tr><td class="time-col">16–17</td>
+<td></td><td class="green cell" id="d7-16"></td><td></td><td class="green cell" id="d9-16"></td>
+<td></td><td></td><td class="green cell" id="d14-16"></td><td></td>
+<td class="green cell" id="d16-16"></td><td></td><td class="green cell" id="d21-16"></td><td></td><td></td>
 </tr>
 
 </tbody>
 </table>
-</div>
 
 <footer>
-© 2026 – CCD 49/2025 | Email:
+© 2026 – CCD 49/2025 |
 <a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a>
 </footer>
 
+<!-- ================= LOGIC ================= -->
 <script>
 function getLisbonTime(){
  return new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Lisbon'}));
@@ -181,11 +203,13 @@ function tick(){
   if(now>=start&&now<end){
    aula=true;
    c.classList.add('blinking');
-   clockDisplay.textContent=`${String(i.day).padStart(2,'0')}/01/2026 - ${String(i.hour).padStart(2,'0')}:00 | Aula: ${c.innerText} - A decorrer`;
+   clockDisplay.textContent=
+    `${String(i.day).padStart(2,'0')}/01/2026 - ${String(i.hour).padStart(2,'0')}:00 | Aula a decorrer`;
   }
  });
  if(!aula){
-  clockDisplay.textContent=`${now.toLocaleDateString('pt-PT')} - ${now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
+  clockDisplay.textContent=
+   `${now.toLocaleDateString('pt-PT')} - ${now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
  }
 }
 setInterval(tick,1000);
