@@ -93,6 +93,7 @@ header h2{font-size:16px;margin:4px 0;font-weight:normal}
 @keyframes typing{from{width:0}to{width:100%}}
 .pdf-button-container{text-align:center;margin:12px}
 #downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-weight:bold;cursor:pointer}
+.calendar-container{overflow-x:auto}
 .calendar{border-collapse:collapse;min-width:700px;background:#fff;margin:auto}
 .calendar th,.calendar td{border:1px solid #ccc;padding:6px;text-align:center;font-size:12px}
 .header{background:#b39d74;color:#fff}
@@ -144,16 +145,12 @@ footer a:hover{color:#fff;text-decoration:underline}
 <td class="white">Almoço</td>
 <td class="white">Almoço</td>
 <td class="white">Almoço</td>
-
-<!-- RETIFICAÇÃO -->
 <td class="orange cell" id="d15-12"><span>CD_B2_D</span></td>
 <td class="white">Almoço</td>
 <td class="white">Almoço</td>
 <td class="white">Almoço</td>
 <td class="orange cell" id="d22-12"><span>CD_B2_D</span></td>
 <td class="orange cell" id="d23-12"><span>CD_B2_D</span></td>
-<!-- FIM -->
-
 </tr>
 
 </tbody>
@@ -193,6 +190,15 @@ function tick(){
 }
 setInterval(tick,1000);
 tick();
+
+downloadPdf.onclick=()=>{
+ const {jsPDF}=window.jspdf;
+ html2canvas(scheduleTable).then(c=>{
+  const pdf=new jsPDF('landscape','mm','a4');
+  pdf.addImage(c.toDataURL('image/png'),'PNG',10,10,270,0);
+  pdf.save('Horario_CCD49_Janeiro_2026.pdf');
+ });
+};
 </script>
 
 </body>
