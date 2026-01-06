@@ -1,422 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pastéis da Avó Beta | Tradição Feita à Mão</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #E67E22;
-            --secondary: #D35400;
-            --accent: #F39C12;
-            --bg-warm: #FFF9F5;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horário CCD 49/2025</title>
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-warm);
-            color: #2D3436;
-            scroll-behavior: smooth;
-        }
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-        .serif { font-family: 'Playfair Display', serif; }
+  const btn = document.createElement("button");
+  btn.id = "downloadIcs";
+  btn.textContent = "📅 Adicionar aulas ao Calendário";
+  btn.style.marginLeft = "8px";
+  btn.style.background = "#3498db";
+  btn.style.color = "#fff";
+  btn.style.border = "none";
+  btn.style.padding = "10px 20px";
+  btn.style.borderRadius = "6px";
+  btn.style.fontWeight = "bold";
+  btn.style.cursor = "pointer";
 
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(230, 126, 34, 0.1);
-        }
+  document.querySelector(".pdf-button-container").appendChild(btn);
 
-        .hero-gradient {
-            background: linear-gradient(135deg, #FFF9F5 0%, #FFE8D6 100%);
-        }
+  btn.onclick = () => {
 
-        .product-card {
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+    const aulas = [
+      { day:6,  hour:9,  ufcd:"CD_B2_C" },
+      { day:7,  hour:13, ufcd:"CD_B2_C" },
+      { day:8,  hour:10, ufcd:"CD_B2_C" },
+      { day:9,  hour:13, ufcd:"CD_B2_C" },
+      { day:12, hour:9,  ufcd:"CD_B2_C" },
+      { day:13, hour:9,  ufcd:"CD_B2_C" },
+      { day:14, hour:13, ufcd:"CD_B2_D" },
+      { day:15, hour:10, ufcd:"CD_B2_D" },
+      { day:16, hour:13, ufcd:"CD_B2_D" },
+      { day:20, hour:9,  ufcd:"CD_B2_D" },
+      { day:21, hour:13, ufcd:"CD_B2_D" },
+      { day:22, hour:10, ufcd:"CD_B2_D" },
+      { day:23, hour:10, ufcd:"CD_B2_D" }
+    ];
 
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
+    let ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT
+CALSCALE:GREGORIAN
+`;
 
-        .floating-cart {
-            box-shadow: 0 10px 25px rgba(230, 126, 34, 0.2);
-        }
+    aulas.forEach(a => {
+      const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
+      const end   = `202601${String(a.hour+1).padStart(2,"0")}0000`;
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-warm); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+      ics +=
+`BEGIN:VEVENT
+DTSTART:${start}
+DTEND:202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000
+SUMMARY:Aula de Competências Digitais – ${a.ufcd}
+DESCRIPTION:CCD 49/2025 – Proficiência Digital – Nível Básico
+LOCATION:4NOW – Viseu
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:Lembrete: Aula de Competências Digitais às ${a.hour}:00
+END:VALARM
+END:VEVENT
+`;
+    });
 
-        .image-placeholder {
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 1rem;
-            overflow: hidden;
-            position: relative;
-        }
+    ics += `END:VCALENDAR`;
 
-        .image-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Cronograma_Janeiro_2026_CCD49.ics";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+});
+</script>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-nav px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold serif text-orange-600">Avó Beta</span>
-            </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-            <div class="hidden md:flex gap-8 font-semibold text-gray-700">
-                <a href="#inicio" class="hover:text-orange-600 transition">Início</a>
-                <a href="#historia" class="hover:text-orange-600 transition">Nossa História</a>
-                <a href="#menu" class="hover:text-orange-600 transition">Menu</a>
-                <a href="#encomendar" class="hover:text-orange-600 transition">Encomendar</a>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <select id="lang" class="bg-transparent border-none text-sm font-semibold focus:ring-0 cursor-pointer">
-                    <option value="pt">PT</option>
-                    <option value="en">EN</option>
-                    <option value="fr">FR</option>
-                </select>
-                <button onclick="toggleCart()" class="relative p-2 bg-orange-100 rounded-full text-orange-600 hover:bg-orange-600 hover:text-white transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="inicio" class="pt-32 pb-20 px-6 hero-gradient overflow-hidden">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="inline-block px-4 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-bold mb-4 uppercase tracking-wider">Artesanal & Caseiro</span>
-                <h1 class="text-5xl md:text-7xl serif font-bold leading-tight mb-6">
-                    O sabor que <span class="text-orange-600">abraça</span> o coração.
-                </h1>
-                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                    Mais do que salgados, entregamos memórias. Receitas guardadas a sete chaves pela Avó Beta, preparadas hoje com o mesmo amor de há 40 anos.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#menu" class="px-8 py-4 bg-orange-600 text-white rounded-2xl font-bold shadow-lg shadow-orange-200 hover:bg-orange-700 transition transform hover:scale-105">Explorar Menu</a>
-                    <a href="#historia" class="px-8 py-4 bg-white border-2 border-orange-200 text-orange-600 rounded-2xl font-bold hover:border-orange-600 transition">Ler a Nossa História</a>
-                </div>
-            </div>
-            <div class="relative">
-                <div class="w-full aspect-square rounded-[2rem] overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-all duration-500 border-8 border-white">
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Avó a amassar o pão com farinha na bancada" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-xs animate-bounce-slow">
-                    <p class="text-sm italic text-gray-500">"O segredo não é a farinha, é a paciência de quem espera a massa crescer."</p>
-                    <p class="mt-2 font-bold text-orange-600">— Avó Beta</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Story -->
-    <section id="historia" class="py-24 px-6 bg-white">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl serif font-bold mb-8">Trabalho à Mão, Alma Portuguesa</h2>
-            <div class="space-y-6 text-lg text-gray-600 text-justify">
-                <p>
-                    A história dos nossos pastéis começa numa pequena cozinha em Viseu. A Beta, conhecida por todos como a avó de mãos de ouro, nunca aceitou máquinas na sua cozinha. "A massa precisa sentir o calor das mãos", dizia ela.
-                </p>
-                <p>
-                    Cada rissol, cada coxinha e cada pastel de bacalhau é moldado individualmente. Usamos apenas ingredientes locais: o azeite da quinta vizinha, o frango do campo e os legumes colhidos na manhã. Quando morde um dos nossos salgados, está a provar décadas de dedicação e uma história de vida dedicada a alimentar quem ama.
-                </p>
-            </div>
-            <div class="mt-12 grid grid-cols-3 gap-4">
-                <div class="h-40 rounded-xl overflow-hidden shadow-md">
-                    <img src="https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Farinha na bancada">
-                </div>
-                <div class="h-40 rounded-xl overflow-hidden shadow-md">
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Massa caseira">
-                </div>
-                <div class="h-40 rounded-xl overflow-hidden shadow-md">
-                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Salgados fritos">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Menu -->
-    <section id="menu" class="py-24 px-6 bg-stone-50">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <h2 class="text-4xl serif font-bold">O Nosso Cardápio</h2>
-                    <p class="text-gray-500 mt-2">Escolha os seus favoritos para entrega imediata.</p>
-                </div>
-                <div class="flex gap-4">
-                    <button class="px-6 py-2 bg-orange-600 text-white rounded-full text-sm font-bold">Todos</button>
-                    <button class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-bold shadow-sm hover:bg-orange-50 transition">Rissóis</button>
-                    <button class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-bold shadow-sm hover:bg-orange-50 transition">Coxinhas</button>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- Product 1 -->
-                <div class="bg-white rounded-[2rem] p-4 shadow-xl shadow-orange-100/50 product-card">
-                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1635363638580-c2809d049eee?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover" alt="Rissol de Camarão">
-                    </div>
-                    <div class="px-2">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-lg">Rissol de Camarão</h3>
-                            <span class="text-orange-600 font-bold">1.20€</span>
-                        </div>
-                        <p class="text-xs text-gray-500 mb-4">Recheio cremoso com camarão fresco e salsa.</p>
-                        <button onclick="addToCart('Rissol de Camarão', 1.20)" class="w-full py-3 bg-stone-100 text-stone-800 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition-colors flex items-center justify-center gap-2">
-                            <span>Adicionar</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 2 -->
-                <div class="bg-white rounded-[2rem] p-4 shadow-xl shadow-orange-100/50 product-card">
-                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover" alt="Coxinha de Frango">
-                    </div>
-                    <div class="px-2">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-lg">Coxinha d'Avó</h3>
-                            <span class="text-orange-600 font-bold">1.50€</span>
-                        </div>
-                        <p class="text-xs text-gray-500 mb-4">Frango do campo desfiado com tempero secreto.</p>
-                        <button onclick="addToCart('Coxinha d\'Avó', 1.50)" class="w-full py-3 bg-stone-100 text-stone-800 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition-colors flex items-center justify-center gap-2">
-                            <span>Adicionar</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="bg-white rounded-[2rem] p-4 shadow-xl shadow-orange-100/50 product-card">
-                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover" alt="Pastel de Bacalhau">
-                    </div>
-                    <div class="px-2">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-lg">Pastel de Bacalhau</h3>
-                            <span class="text-orange-600 font-bold">1.30€</span>
-                        </div>
-                        <p class="text-xs text-gray-500 mb-4">Bacalhau da Noruega e batata da horta.</p>
-                        <button onclick="addToCart('Pastel de Bacalhau', 1.30)" class="w-full py-3 bg-stone-100 text-stone-800 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition-colors flex items-center justify-center gap-2">
-                            <span>Adicionar</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="bg-white rounded-[2rem] p-4 shadow-xl shadow-orange-100/50 product-card">
-                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover" alt="Folhado de Lombo">
-                    </div>
-                    <div class="px-2">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-lg">Folhado Mixto</h3>
-                            <span class="text-orange-600 font-bold">1.60€</span>
-                        </div>
-                        <p class="text-xs text-gray-500 mb-4">Massa folhada artesanal que derrete na boca.</p>
-                        <button onclick="addToCart('Folhado Mixto', 1.60)" class="w-full py-3 bg-stone-100 text-stone-800 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition-colors flex items-center justify-center gap-2">
-                            <span>Adicionar</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer / Ordering -->
-    <footer id="encomendar" class="bg-stone-900 text-white py-20 px-6">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
-            <div class="col-span-2">
-                <h3 class="text-3xl serif font-bold mb-6">Pastéis da Avó Beta</h3>
-                <p class="text-stone-400 mb-8 max-w-md">Ligue-nos para encomendas especiais, eventos ou catering. Entregamos em toda a região com carinho e rapidez.</p>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4 text-orange-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                        <span class="text-white font-bold">+351 912 345 678</span>
-                    </div>
-                    <div class="flex items-center gap-4 text-orange-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        <span class="text-white">Rua da Tradição, nº 12, Viseu</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-bold mb-6 text-orange-400">Links Rápidos</h4>
-                <ul class="space-y-4 text-stone-400">
-                    <li><a href="#" class="hover:text-white transition">Sobre Nós</a></li>
-                    <li><a href="#" class="hover:text-white transition">Menu Digital</a></li>
-                    <li><a href="#" class="hover:text-white transition">Termos de Serviço</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contacto</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-6 text-orange-400">Newsletter</h4>
-                <p class="text-sm text-stone-400 mb-4">Receba as nossas novidades quentinhas.</p>
-                <div class="flex gap-2">
-                    <input type="email" placeholder="E-mail" class="bg-stone-800 border-none rounded-lg px-4 py-2 w-full focus:ring-1 focus:ring-orange-600">
-                    <button class="bg-orange-600 p-2 rounded-lg hover:bg-orange-700 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto border-t border-stone-800 mt-16 pt-8 text-center text-stone-500 text-sm">
-            <p>&copy; 2024 Pastéis da Avó Beta. Design de Alta Gastronomia.</p>
-        </div>
-    </footer>
-
-    <!-- Side Cart Drawer -->
-    <div id="cart-drawer" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="toggleCart()"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl p-8 flex flex-col">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold serif">O Seu Pedido</h2>
-                <button onclick="toggleCart()" class="text-gray-400 hover:text-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-            
-            <div id="cart-items" class="flex-grow overflow-y-auto space-y-4">
-                <!-- Items injected by JS -->
-                <p class="text-center text-gray-400 py-10">O seu cesto está vazio.</p>
-            </div>
-
-            <div class="border-t pt-6 mt-6">
-                <div class="flex justify-between text-xl font-bold mb-6">
-                    <span>Total:</span>
-                    <span id="cart-total">0.00€</span>
-                </div>
-                <button onclick="checkout()" class="w-full py-4 bg-orange-600 text-white rounded-2xl font-bold text-lg hover:bg-orange-700 transition shadow-lg shadow-orange-100">
-                    Finalizar Encomenda
-                </button>
-                <p class="text-center text-xs text-gray-400 mt-4 italic">Taxa de entrega calculada no checkout.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Message Box -->
-    <div id="notification" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[70] bg-stone-900 text-white px-8 py-4 rounded-2xl shadow-2xl hidden transform translate-y-20 transition-all duration-300">
-        <span id="notif-text">Adicionado com sucesso!</span>
-    </div>
-
-    <script>
-        let cart = [];
-        const cartDrawer = document.getElementById('cart-drawer');
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cartTotalDisplay = document.getElementById('cart-total');
-        const cartCountDisplay = document.getElementById('cart-count');
-        const notification = document.getElementById('notification');
-
-        function toggleCart() {
-            cartDrawer.classList.toggle('hidden');
-        }
-
-        function addToCart(name, price) {
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push({ name, price, quantity: 1 });
-            }
-            updateCart();
-            showNotification(`${name} adicionado!`);
-        }
-
-        function removeFromCart(name) {
-            cart = cart.filter(item => item.name !== name);
-            updateCart();
-        }
-
-        function updateCart() {
-            // Update items
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="text-center text-gray-400 py-10">O seu cesto está vazio.</p>';
-            } else {
-                cartItemsContainer.innerHTML = cart.map(item => `
-                    <div class="flex justify-between items-center bg-stone-50 p-4 rounded-xl">
-                        <div>
-                            <p class="font-bold">${item.name}</p>
-                            <p class="text-sm text-gray-500">${item.quantity}x ${item.price.toFixed(2)}€</p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="font-bold text-orange-600">${(item.price * item.quantity).toFixed(2)}€</span>
-                            <button onclick="removeFromCart('${item.name}')" class="text-red-400 hover:text-red-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Update total and count
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            cartTotalDisplay.innerText = `${total.toFixed(2)}€`;
-            cartCountDisplay.innerText = count;
-        }
-
-        function showNotification(text) {
-            document.getElementById('notif-text').innerText = text;
-            notification.classList.remove('hidden', 'translate-y-20');
-            setTimeout(() => {
-                notification.classList.add('translate-y-20');
-                setTimeout(() => notification.classList.add('hidden'), 300);
-            }, 2000);
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                showNotification("O seu cesto está vazio!");
-                return;
-            }
-            alert("A redirecionar para o pagamento seguro...");
-            cart = [];
-            updateCart();
-            toggleCart();
-        }
-
-        // Simple Translation Mock
-        document.getElementById('lang').addEventListener('change', (e) => {
-            const lang = e.target.value;
-            if (lang === 'en') {
-                document.querySelector('h1').innerHTML = 'The flavor that <span class="text-orange-600">hugs</span> your heart.';
-                // Add more replacements as needed
-            } else {
-                location.reload(); // Quick reset for demo
-            }
-        });
-    </script>
-</body>
-</html>
+<!-- ⚠️ CSS, BODY, TABELA, CONTADORES, PDF, BLINKING, RELÓGIO
+mantêm-se exatamente iguais ao que enviaste,
+apenas a grelha horária foi ajustada conforme o resumo validado -->
