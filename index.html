@@ -5,8 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Horário CCD 49/2025</title>
 
+<!-- ===== SCRIPT CALENDÁRIO ===== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.createElement("button");
+  btn.id = "downloadIcs";
+  btn.textContent = "📅 Adicionar aulas ao Calendário";
+  btn.style.marginLeft = "8px";
+  btn.style.background = "#3498db";
+  btn.style.color = "#fff";
+  btn.style.border = "none";
+  btn.style.padding = "10px 20px";
+  btn.style.borderRadius = "6px";
+  btn.style.fontWeight = "bold";
+  btn.style.cursor = "pointer";
+  document.querySelector(".pdf-button-container").appendChild(btn);
+
+  btn.onclick = () => {
+    const aulas = [
+      { day:6, hour:9, ufcd:"CD_B2_C" },{ day:6, hour:10, ufcd:"CD_B2_C" },
+      { day:6, hour:11, ufcd:"CD_B2_C" },{ day:7, hour:13, ufcd:"CD_B2_C" },
+      { day:7, hour:14, ufcd:"CD_B2_C" },{ day:7, hour:15, ufcd:"CD_B2_C" },
+      { day:7, hour:16, ufcd:"CD_B2_C" },{ day:8, hour:10, ufcd:"CD_B2_C" },
+      { day:8, hour:11, ufcd:"CD_B2_C" },{ day:8, hour:12, ufcd:"CD_B2_C" },
+      { day:9, hour:13, ufcd:"CD_B2_C" },{ day:9, hour:14, ufcd:"CD_B2_C" },
+      { day:9, hour:15, ufcd:"CD_B2_C" },{ day:9, hour:16, ufcd:"CD_B2_C" },
+      { day:12, hour:9, ufcd:"CD_B2_C" },{ day:12, hour:10, ufcd:"CD_B2_C" },
+      { day:12, hour:11, ufcd:"CD_B2_C" },{ day:13, hour:9, ufcd:"CD_B2_C" },
+      { day:13, hour:10, ufcd:"CD_B2_C" },{ day:13, hour:11, ufcd:"CD_B2_C" },
+      { day:14, hour:13, ufcd:"CD_B2_D" },{ day:14, hour:14, ufcd:"CD_B2_D" },
+      { day:14, hour:15, ufcd:"CD_B2_D" },{ day:14, hour:16, ufcd:"CD_B2_D" },
+      { day:15, hour:10, ufcd:"CD_B2_D" },{ day:15, hour:11, ufcd:"CD_B2_D" },
+      { day:15, hour:12, ufcd:"CD_B2_D" },{ day:16, hour:13, ufcd:"CD_B2_D" },
+      { day:16, hour:14, ufcd:"CD_B2_D" },{ day:16, hour:15, ufcd:"CD_B2_D" },
+      { day:16, hour:16, ufcd:"CD_B2_D" },{ day:20, hour:9, ufcd:"CD_B2_D" },
+      { day:20, hour:10, ufcd:"CD_B2_D" },{ day:20, hour:11, ufcd:"CD_B2_D" },
+      { day:21, hour:13, ufcd:"CD_B2_D" },{ day:21, hour:14, ufcd:"CD_B2_D" },
+      { day:21, hour:15, ufcd:"CD_B2_D" },{ day:21, hour:16, ufcd:"CD_B2_D" },
+      { day:22, hour:10, ufcd:"CD_B2_D" },{ day:22, hour:11, ufcd:"CD_B2_D" },
+      { day:22, hour:12, ufcd:"CD_B2_D" },{ day:23, hour:10, ufcd:"CD_B2_D" },
+      { day:23, hour:11, ufcd:"CD_B2_D" },{ day:23, hour:12, ufcd:"CD_B2_D" }
+    ];
+
+    let ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CCD49//PT\n`;
+    aulas.forEach(a=>{
+      ics+=`BEGIN:VEVENT
+DTSTART:202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000
+DTEND:202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000
+SUMMARY:Aula ${a.ufcd}
+END:VEVENT\n`;
+    });
+    ics+="END:VCALENDAR";
+
+    const blob=new Blob([ics],{type:"text/calendar"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download="Horario.ics";a.click();
+  };
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
-body{font-family:Arial;background:#f5f5f5;margin:0;padding:0}
+body{font-family:Arial;background:#f5f5f5;margin:0}
 header{background:#2c3e50;color:#fff;text-align:center;padding:14px}
 .pdf-button-container{text-align:center;margin:12px}
 .digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;text-align:center}
@@ -14,11 +77,9 @@ footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:2
 .cell{height:60px;background:#ecf0f1;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer}
 button{margin:4px;padding:8px 14px;border:none;border-radius:6px;background:#3498db;color:#fff;font-weight:bold;cursor:pointer}
 button:disabled{background:#999;cursor:not-allowed}
-table{border-collapse:collapse;margin:20px auto;background:#fff;border-radius:6px;overflow:hidden}
-th,td{border:1px solid #ccc;padding:6px 10px;text-align:center}
-th{background:#2c3e50;color:#fff}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -33,27 +94,7 @@ th{background:#2c3e50;color:#fff}
 
 <div class="digital-clock" id="clockDisplay">Relógio ativo</div>
 
-<!-- ===== TABELA HORÁRIO ===== -->
-<div id="horarioBox">
-<h3 style="text-align:center">📅 Horário Visual</h3>
-<table id="horarioTable">
-<thead>
-<tr>
-<th>Hora</th>
-<th>Seg</th>
-<th>Ter</th>
-<th>Qua</th>
-<th>Qui</th>
-<th>Sex</th>
-</tr>
-</thead>
-<tbody>
-<!-- Linhas geradas pelo JS -->
-</tbody>
-</table>
-</div>
-
-<!-- ===== JOGO DO GALO ===== -->
+<!-- ===== JOGO DO GALO (OCULTO) ===== -->
 <div id="galoBox" style="display:none;max-width:260px;margin:20px auto;background:#fff;padding:15px;border-radius:8px;text-align:center">
 <h3>Jogo do Galo</h3>
 <div id="galo" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
@@ -64,121 +105,61 @@ th{background:#2c3e50;color:#fff}
 <footer>© 2026 – CCD 49/2025</footer>
 
 <script>
-// ===== DADOS DO HORÁRIO =====
-const aulas = [
-  { day:6, hour:9, ufcd:"CD_B2_C" },{ day:6, hour:10, ufcd:"CD_B2_C" },
-  { day:6, hour:11, ufcd:"CD_B2_C" },{ day:7, hour:13, ufcd:"CD_B2_C" },
-  { day:7, hour:14, ufcd:"CD_B2_C" },{ day:7, hour:15, ufcd:"CD_B2_C" },
-  { day:7, hour:16, ufcd:"CD_B2_C" },{ day:8, hour:10, ufcd:"CD_B2_C" },
-  { day:8, hour:11, ufcd:"CD_B2_C" },{ day:8, hour:12, ufcd:"CD_B2_C" },
-  { day:9, hour:13, ufcd:"CD_B2_C" },{ day:9, hour:14, ufcd:"CD_B2_C" },
-  { day:9, hour:15, ufcd:"CD_B2_C" },{ day:9, hour:16, ufcd:"CD_B2_C" },
-  { day:12, hour:9, ufcd:"CD_B2_C" },{ day:12, hour:10, ufcd:"CD_B2_C" },
-  { day:12, hour:11, ufcd:"CD_B2_C" },{ day:13, hour:9, ufcd:"CD_B2_C" },
-  { day:13, hour:10, ufcd:"CD_B2_C" },{ day:13, hour:11, ufcd:"CD_B2_C" },
-  { day:14, hour:13, ufcd:"CD_B2_D" },{ day:14, hour:14, ufcd:"CD_B2_D" },
-  { day:14, hour:15, ufcd:"CD_B2_D" },{ day:14, hour:16, ufcd:"CD_B2_D" },
-  { day:15, hour:10, ufcd:"CD_B2_D" },{ day:15, hour:11, ufcd:"CD_B2_D" },
-  { day:15, hour:12, ufcd:"CD_B2_D" },{ day:16, hour:13, ufcd:"CD_B2_D" },
-  { day:16, hour:14, ufcd:"CD_B2_D" },{ day:16, hour:15, ufcd:"CD_B2_D" },
-  { day:16, hour:16, ufcd:"CD_B2_D" },{ day:20, hour:9, ufcd:"CD_B2_D" },
-  { day:20, hour:10, ufcd:"CD_B2_D" },{ day:20, hour:11, ufcd:"CD_B2_D" },
-  { day:21, hour:13, ufcd:"CD_B2_D" },{ day:21, hour:14, ufcd:"CD_B2_D" },
-  { day:21, hour:15, ufcd:"CD_B2_D" },{ day:21, hour:16, ufcd:"CD_B2_D" },
-  { day:22, hour:10, ufcd:"CD_B2_D" },{ day:22, hour:11, ufcd:"CD_B2_D" },
-  { day:22, hour:12, ufcd:"CD_B2_D" },{ day:23, hour:10, ufcd:"CD_B2_D" },
-  { day:23, hour:11, ufcd:"CD_B2_D" },{ day:23, hour:12, ufcd:"CD_B2_D" }
-];
-
-// ===== DESENHAR HORÁRIO =====
-const tbody = document.querySelector("#horarioTable tbody");
-for(let h=9; h<=16; h++){
-  const tr = document.createElement("tr");
-  const th = document.createElement("th");
-  th.textContent = `${h}:00`;
-  tr.appendChild(th);
-  for(let d=6; d<=10; d++){
-    const td = document.createElement("td");
-    const aula = aulas.find(a => a.day === d && a.hour === h);
-    td.textContent = aula ? aula.ufcd : "";
-    tr.appendChild(td);
-  }
-  tbody.appendChild(tr);
-}
-
-// ===== RELÓGIO DIGITAL =====
-const clock = document.getElementById("clockDisplay");
+/* ===== RELÓGIO DIGITAL ===== */
 function updateClock(){
   const now = new Date();
-  clock.textContent = now.toLocaleTimeString();
-  blockGame(now);
+  document.getElementById("clockDisplay").textContent = now.toLocaleTimeString();
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// ===== BLOQUEAR JOGO DURANTE AULAS =====
-function blockGame(now){
-  const hour = now.getHours();
-  const day = now.getDate();
-  const isAula = aulas.some(a => a.day === day && a.hour === hour);
-  document.getElementById("galoBtn").disabled = isAula;
+/* ===== MOSTRAR / ESCONDER JOGO ===== */
+function toggleGalo(){
+  const box = document.getElementById("galoBox");
+  box.style.display = box.style.display==="none"?"block":"none";
 }
 
-// ===== JOGO DO GALO VS BOT =====
-const galo = document.getElementById("galo");
-const statusG = document.getElementById("galoStatus");
-let board = Array(9).fill("");
-let turn = "X";
-let playing = true;
-
-function toggleGalo(){ document.getElementById("galoBox").style.display = 
-    document.getElementById("galoBox").style.display==="none"?"block":"none"; }
+/* ===== JOGO DO GALO ===== */
+const galo=document.getElementById("galo");
+const statusG=document.getElementById("galoStatus");
+let board,turn;
 
 function init(){
-  galo.innerHTML = "";
-  board.fill("");
-  turn = "X";
-  playing = true;
-  statusG.textContent = "";
+  galo.innerHTML="";
+  board=Array(9).fill("");
+  turn="X";
+  statusG.textContent="";
+  galo.style.pointerEvents="auto";
 
   for(let i=0;i<9;i++){
-    const c = document.createElement("div");
+    const c=document.createElement("div");
     c.className="cell";
-    c.onclick = () => { if(playing) playerMove(i,c); };
+    c.onclick=()=>play(i,c);
     galo.appendChild(c);
   }
 }
-function playerMove(i,c){
-  if(board[i]) return;
-  board[i] = "X";
-  c.textContent = "X";
-  if(checkWin("X")) return;
-  botMove();
+
+function play(i,c){
+  if(board[i])return;
+  board[i]=turn;
+  c.textContent=turn;
+  if(win()){
+    statusG.textContent=`${turn} venceu!`;
+    galo.style.pointerEvents="none";
+  }else{
+    turn=turn==="X"?"O":"X";
+  }
 }
-function botMove(){
-  let empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-  if(empty.length===0) return;
-  let move = empty[Math.floor(Math.random()*empty.length)];
-  board[move] = "O";
-  galo.children[move].textContent = "O";
-  checkWin("O");
-}
-function checkWin(p){
+
+function win(){
   const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  if(w.some(a=>a.every(i=>board[i]===p))){
-    statusG.textContent = `${p} venceu!`;
-    playing = false;
-    return true;
-  }
-  if(board.every(c=>c!=="")){
-    statusG.textContent = "Empate!";
-    playing = false;
-    return true;
-  }
-  return false;
+  return w.some(a=>a.every(i=>board[i]===turn));
 }
+
 function resetGalo(){ init(); }
+
 init();
 </script>
+
 </body>
 </html>
