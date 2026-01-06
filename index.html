@@ -110,8 +110,6 @@ header h1{font-size:18px;margin:6px 0}
 header h2{font-size:16px;margin:4px 0;font-weight:normal}
 header h3{font-size:14px;margin:4px 0;font-weight:normal}
 .digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;font-size:14px}
-.typewriter{white-space:nowrap;overflow:hidden;animation:typing 14s steps(140,end) infinite}
-@keyframes typing{from{width:0}to{width:100%}}
 .pdf-button-container{text-align:center;margin:12px}
 #downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:bold;cursor:pointer}
 .calendar-container{overflow-x:auto;width:100%}
@@ -206,7 +204,7 @@ footer a:hover{
   <button id="downloadPdf">👉 Descarregar Horário em PDF</button>
   <button id="playTicTacToe">🎮 Jogo do Galo (nos tempos livres)</button>
 </div>
-<div class="digital-clock"><div id="clockDisplay" class="typewriter">A carregar horário...</div></div>
+<div class="digital-clock"><div id="clockDisplay">A carregar horário...</div></div>
 <div class="calendar-container">
 <table class="calendar" id="scheduleTable">
 <thead>
@@ -410,49 +408,68 @@ footer a:hover{
 function getLisbonTime(){return new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Lisbon'}));}
 function initCountdowns(){document.querySelectorAll('.cell').forEach(c=>{if(!c.querySelector('.cell-countdown')){const d=document.createElement('div');d.className='cell-countdown';c.appendChild(d);}});}
 function parseId(id){const m=id.match(/d(\d+)-(\d+)/);return m?{day:+m[1],hour:+m[2]}:null;}
+
+// Função para plural correto em português
+function plural(n, singular, pluralWord) {
+  return n === 1 ? singular : pluralWord;
+}
+
 function tick(){
- const now=getLisbonTime();
+ const now = getLisbonTime();
  initCountdowns();
- let aulaAtiva=false;
- document.querySelectorAll('.cell').forEach(c=>{
+ let aulaAtiva = false;
+
+ document.querySelectorAll('.cell').forEach(c => {
   c.classList.remove('blinking');
-  const info=parseId(c.id);
-  if(!info||!c.querySelector('span'))return;
-  const start=new Date(2026,0,info.day,info.hour,0,0);
-  const end=new Date(2026,0,info.day,info.hour+1,0,0);
-  const cd=c.querySelector('.cell-countdown');
-  if(now>=start&&now<end){
-   aulaAtiva=true;
+  const info = parseId(c.id);
+  if (!info || !c.querySelector('span')) return;
+
+  const start = new Date(2026, 0, info.day, info.hour, 0, 0);
+  const end = new Date(2026, 0, info.day, info.hour + 1, 0, 0);
+  const cd = c.querySelector('.cell-countdown');
+
+  if (now >= start && now < end) {
+   aulaAtiva = true;
    const diff = end - now;
    const m = Math.floor(diff / 60000);
    const s = Math.floor((diff / 1000) % 60);
-   cd.textContent = `Termina em \( {m} minuto \){m !== 1 ? 's' : ''} e \( {s} segundo \){s !== 1 ? 's' : ''}`;
+   cd.textContent = `Termina em ${m} ${plural(m, 'minuto', 'minutos')} e ${s} ${plural(s, 'segundo', 'segundos')}`;
    c.classList.add('blinking');
-   clockDisplay.textContent=`${String(info.day).padStart(2,'0')}/01/2026 - ${String(info.hour).padStart(2,'0')}:00 | Aula: ${c.querySelector('span').textContent} - A decorrer`;
-  }else cd.textContent='';
+   clockDisplay.textContent = `${String(info.day).padStart(2,'0')}/01/2026 - ${String(info.hour).padStart(2,'0')}:00 | Aula: ${c.querySelector('span').textContent} - A decorrer`;
+  } else {
+   cd.textContent = '';
+  }
  });
- if(!aulaAtiva){
-  const next=[...document.querySelectorAll('.cell')].map(c=>{
-   const i=parseId(c.id); if(!i||!c.querySelector('span'))return null;
-   return{start:new Date(2026,0,i.day,i.hour),name:c.querySelector('span').textContent};
-  }).filter(x=>x&&x.start>now).sort((a,b)=>a.start-b.start)[0];
-  if(next){
+
+ if (!aulaAtiva) {
+  const aulas = [...document.querySelectorAll('.cell')].map(c => {
+   const i = parseId(c.id);
+   if (!i || !c.querySelector('span')) return null;
+   return { start: new Date(2026, 0, i.day, i.hour), name: c.querySelector('span').textContent };
+  }).filter(x => x && x.start > now).sort((a, b) => a.start - b.start);
+
+  if (aulas.length > 0) {
+   const next = aulas[0];
    const diff = next.start - now;
+
    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-   const dataAtual=now.toLocaleDateString('pt-PT');
-   const horaAtual=now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
-   const dataProx=next.start.toLocaleDateString('pt-PT');
-   const horaProx=next.start.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
-   clockDisplay.textContent=`${dataAtual} - ${horaAtual} | Faltam \( {days} dia \){days !== 1 ? 's' : ''}, \( {hours} hora \){hours !== 1 ? 's' : ''} e \( {minutes} minuto \){minutes !== 1 ? 's' : ''} para a próxima aula (${next.name}) em ${dataProx} às ${horaProx}`;
-  }else {
-   clockDisplay.textContent='Sem aulas futuras agendadas. Diverte-te com o Jogo do Galo!';
+
+   const dataAtual = now.toLocaleDateString('pt-PT');
+   const horaAtual = now.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+   const dataProx = next.start.toLocaleDateString('pt-PT');
+   const horaProx = next.start.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+
+   clockDisplay.textContent = `${dataAtual} - ${horaAtual} | Faltam ${days} ${plural(days, 'dia', 'dias')}, ${hours} ${plural(hours, 'hora', 'horas')} e ${minutes} \( {plural(minutes, 'minuto', 'minutos')} para a próxima aula ( \){next.name}) em ${dataProx} às ${horaProx}`;
+  } else {
+   clockDisplay.textContent = 'Sem aulas futuras agendadas. Diverte-te com o Jogo do Galo!';
    ticContainer.style.display = 'flex';
    createBoard();
   }
  }
 }
+
 function calcularHoras(){
  let c=0,d=0;
  document.querySelectorAll('.cell span').forEach(s=>{
@@ -466,7 +483,17 @@ function calcularHoras(){
 calcularHoras();
 tick();
 setInterval(tick,1000);
-downloadPdf.onclick=()=>{const{jsPDF}=window.jspdf;const doc=new jsPDF('landscape','mm','a4');html2canvas(scheduleTable,{scale:2}).then(c=>{doc.addImage(c.toDataURL('image/png'),'PNG',10,10,270,0);doc.save('Horario_CCD49.pdf');});};
+
+const downloadPdf = document.getElementById('downloadPdf');
+const scheduleTable = document.getElementById('scheduleTable');
+downloadPdf.onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('landscape','mm','a4');
+  html2canvas(scheduleTable,{scale:2}).then(c=>{
+    doc.addImage(c.toDataURL('image/png'),'PNG',10,10,270,0);
+    doc.save('Horario_CCD49.pdf');
+  });
+};
 
 // ---------- JOGO DO GALO ----------
 const ticContainer = document.getElementById('ticTacToeContainer');
