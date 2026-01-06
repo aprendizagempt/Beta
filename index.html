@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Horário CCD 49/2025</title>
+<title>Cronograma Janeiro 2026 – CCD 49/2025</title>
 
+<!-- ================= ICS CALENDAR ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -49,12 +50,12 @@ CALSCALE:GREGORIAN
 
     aulas.forEach(a => {
       const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
-      const end   = `202601${String(a.hour+1).padStart(2,"0")}0000`;
+      const end   = `202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000`;
 
       ics +=
 `BEGIN:VEVENT
 DTSTART:${start}
-DTEND:202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000
+DTEND:${end}
 SUMMARY:Aula de Competências Digitais – ${a.ufcd}
 DESCRIPTION:CCD 49/2025 – Proficiência Digital – Nível Básico
 LOCATION:4NOW – Viseu
@@ -83,6 +84,204 @@ END:VEVENT
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<!-- ⚠️ CSS, BODY, TABELA, CONTADORES, PDF, BLINKING, RELÓGIO
-mantêm-se exatamente iguais ao que enviaste,
-apenas a grelha horária foi ajustada conforme o resumo validado -->
+<!-- ================= CSS ================= -->
+<style>
+body{font-family:Helvetica,Arial,sans-serif;background:#f5f5f5;margin:0}
+header{background:#2c3e50;color:#fff;text-align:center;padding:14px}
+header h1{font-size:20px;margin:6px 0}
+header h2{font-size:16px;margin:4px 0;font-weight:normal}
+.digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;font-size:14px}
+.typewriter{white-space:nowrap;overflow:hidden;animation:typing 16s steps(160,end) infinite}
+@keyframes typing{from{width:0}to{width:100%}}
+.pdf-button-container{text-align:center;margin:12px}
+#downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-weight:bold;cursor:pointer}
+.calendar-container{overflow-x:auto}
+.calendar{border-collapse:collapse;min-width:700px;background:#fff;margin:auto}
+.calendar th,.calendar td{border:1px solid #ccc;padding:6px;text-align:center;font-size:12px}
+.header{background:#b39d74;color:#fff}
+.time-col{background:#eee;font-weight:bold}
+.green{background:#ccffcc}
+.orange{background:#ffcc99}
+.white{background:#fff}
+.blinking{animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.cell-countdown{font-size:10px}
+.legend{width:95%;margin:15px auto;background:#fff;padding:12px;border-radius:6px;font-size:12px}
+footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;font-size:12px}
+footer a{color:#7ecbff;text-decoration:none}
+footer a:hover{color:#fff;text-decoration:underline}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1><strong>Cronograma Janeiro 2026</strong></h1>
+<h2>CCD 49/2025 – Proficiência Digital – Nível Básico</h2>
+<div>UFCD CD_B2_C | UFCD CD_B2_D</div>
+<div>4NOW – Viseu</div>
+</header>
+
+<div class="pdf-button-container">
+<button id="downloadPdf">📄 Descarregar PDF</button>
+</div>
+
+<div class="digital-clock">
+<div id="clockDisplay" class="typewriter">A carregar horário...</div>
+</div>
+
+<div class="calendar-container">
+<table class="calendar" id="scheduleTable">
+<thead>
+<tr>
+<th class="header">Hora</th>
+<th class="header">06</th><th class="header">07</th><th class="header">08</th><th class="header">09</th>
+<th class="header">12</th><th class="header">13</th><th class="header">14</th><th class="header">15</th>
+<th class="header">16</th><th class="header">20</th><th class="header">21</th><th class="header">22</th><th class="header">23</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="time-col">09–10</td>
+<td class="green cell" id="d6-9"><span>CD_B2_C</span></td><td></td><td></td><td></td>
+<td class="green cell" id="d12-9"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-9"><span>CD_B2_C</span></td>
+<td></td><td></td><td></td>
+<td class="orange cell" id="d20-9"><span>CD_B2_D</span></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr><td class="time-col">10–11</td>
+<td class="green cell" id="d6-10"><span>CD_B2_C</span></td><td></td>
+<td class="green cell" id="d8-10"><span>CD_B2_C</span></td><td></td>
+<td class="green cell" id="d12-10"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-10"><span>CD_B2_C</span></td>
+<td></td><td class="orange cell" id="d15-10"><span>CD_B2_D</span></td>
+<td></td><td class="orange cell" id="d20-10"><span>CD_B2_D</span></td>
+<td></td><td class="orange cell" id="d22-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d23-10"><span>CD_B2_D</span></td>
+</tr>
+
+<tr><td class="time-col">11–12</td>
+<td class="green cell" id="d6-11"><span>CD_B2_C</span></td><td></td>
+<td class="green cell" id="d8-11"><span>CD_B2_C</span></td><td></td>
+<td class="green cell" id="d12-11"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-11"><span>CD_B2_C</span></td>
+<td></td><td class="orange cell" id="d15-11"><span>CD_B2_D</span></td>
+<td></td><td class="orange cell" id="d20-11"><span>CD_B2_D</span></td>
+<td></td><td class="orange cell" id="d22-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d23-11"><span>CD_B2_D</span></td>
+</tr>
+
+<tr><td class="time-col">12–13</td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="green cell" id="d8-12"><span>CD_B2_C</span></td>
+<td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td>
+</tr>
+
+<tr><td class="time-col">13–14</td>
+<td class="white">Almoço</td>
+<td class="green cell" id="d7-13"><span>CD_B2_C</span></td>
+<td class="white">Almoço</td>
+<td class="green cell" id="d9-13"><span>CD_B2_C</span></td>
+<td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="orange cell" id="d14-13"><span>CD_B2_D</span></td>
+<td class="white">Almoço</td>
+<td class="orange cell" id="d16-13"><span>CD_B2_D</span></td>
+<td class="white">Almoço</td>
+<td class="orange cell" id="d21-13"><span>CD_B2_D</span></td>
+<td class="white">Almoço</td>
+<td class="white">Almoço</td>
+</tr>
+
+<tr><td class="time-col">14–15</td>
+<td></td><td class="green cell" id="d7-14"><span>CD_B2_C</span></td>
+<td></td><td class="green cell" id="d9-14"><span>CD_B2_C</span></td>
+<td></td><td></td>
+<td class="orange cell" id="d14-14"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d16-14"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d21-14"><span>CD_B2_D</span></td>
+<td></td><td></td>
+</tr>
+
+<tr><td class="time-col">15–16</td>
+<td></td><td class="green cell" id="d7-15"><span>CD_B2_C</span></td>
+<td></td><td class="green cell" id="d9-15"><span>CD_B2_C</span></td>
+<td></td><td></td>
+<td class="orange cell" id="d14-15"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d16-15"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d21-15"><span>CD_B2_D</span></td>
+<td></td><td></td>
+</tr>
+
+<tr><td class="time-col">16–17</td>
+<td></td><td class="green cell" id="d7-16"><span>CD_B2_C</span></td>
+<td></td><td class="green cell" id="d9-16"><span>CD_B2_C</span></td>
+<td></td><td></td>
+<td class="orange cell" id="d14-16"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d16-16"><span>CD_B2_D</span></td>
+<td></td>
+<td class="orange cell" id="d21-16"><span>CD_B2_D</span></td>
+<td></td><td></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<footer>
+© 2026 – CCD 49/2025 | Email:
+<a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a>
+</footer>
+
+<!-- ================= LOGIC ================= -->
+<script>
+function getLisbonTime(){
+ return new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Lisbon'}));
+}
+function parseId(id){
+ const m=id.match(/d(\d+)-(\d+)/);
+ return m?{day:+m[1],hour:+m[2]}:null;
+}
+function tick(){
+ const now=getLisbonTime();
+ let aula=false;
+ document.querySelectorAll('.cell').forEach(c=>{
+  c.classList.remove('blinking');
+  const i=parseId(c.id); if(!i)return;
+  const start=new Date(2026,0,i.day,i.hour);
+  const end=new Date(2026,0,i.day,i.hour+1);
+  if(now>=start&&now<end){
+   aula=true;
+   c.classList.add('blinking');
+   clockDisplay.textContent=`${String(i.day).padStart(2,'0')}/01/2026 - ${String(i.hour).padStart(2,'0')}:00 | Aula: ${c.innerText} - A decorrer`;
+  }
+ });
+ if(!aula){
+  clockDisplay.textContent=`${now.toLocaleDateString('pt-PT')} - ${now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}`;
+ }
+}
+setInterval(tick,1000);
+tick();
+
+downloadPdf.onclick=()=>{
+ const {jsPDF}=window.jspdf;
+ html2canvas(scheduleTable).then(c=>{
+  const pdf=new jsPDF('landscape','mm','a4');
+  pdf.addImage(c.toDataURL('image/png'),'PNG',10,10,270,0);
+  pdf.save('Horario_CCD49_Janeiro_2026.pdf');
+ });
+};
+</script>
+
+</body>
+</html>
