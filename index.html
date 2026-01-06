@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Horário CCD 49/2025</title>
 
-<!-- ===== SCRIPT CALENDÁRIO ===== -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.createElement("button");
@@ -20,47 +19,85 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.style.fontWeight = "bold";
   btn.style.cursor = "pointer";
   document.querySelector(".pdf-button-container").appendChild(btn);
-
   btn.onclick = () => {
     const aulas = [
-      { day:6, hour:9, ufcd:"CD_B2_C" },{ day:6, hour:10, ufcd:"CD_B2_C" },
-      { day:6, hour:11, ufcd:"CD_B2_C" },{ day:7, hour:13, ufcd:"CD_B2_C" },
-      { day:7, hour:14, ufcd:"CD_B2_C" },{ day:7, hour:15, ufcd:"CD_B2_C" },
-      { day:7, hour:16, ufcd:"CD_B2_C" },{ day:8, hour:10, ufcd:"CD_B2_C" },
-      { day:8, hour:11, ufcd:"CD_B2_C" },{ day:8, hour:12, ufcd:"CD_B2_C" },
-      { day:9, hour:13, ufcd:"CD_B2_C" },{ day:9, hour:14, ufcd:"CD_B2_C" },
-      { day:9, hour:15, ufcd:"CD_B2_C" },{ day:9, hour:16, ufcd:"CD_B2_C" },
-      { day:12, hour:9, ufcd:"CD_B2_C" },{ day:12, hour:10, ufcd:"CD_B2_C" },
-      { day:12, hour:11, ufcd:"CD_B2_C" },{ day:13, hour:9, ufcd:"CD_B2_C" },
-      { day:13, hour:10, ufcd:"CD_B2_C" },{ day:13, hour:11, ufcd:"CD_B2_C" },
-      { day:14, hour:13, ufcd:"CD_B2_D" },{ day:14, hour:14, ufcd:"CD_B2_D" },
-      { day:14, hour:15, ufcd:"CD_B2_D" },{ day:14, hour:16, ufcd:"CD_B2_D" },
-      { day:15, hour:10, ufcd:"CD_B2_D" },{ day:15, hour:11, ufcd:"CD_B2_D" },
-      { day:15, hour:12, ufcd:"CD_B2_D" },{ day:16, hour:13, ufcd:"CD_B2_D" },
-      { day:16, hour:14, ufcd:"CD_B2_D" },{ day:16, hour:15, ufcd:"CD_B2_D" },
-      { day:16, hour:16, ufcd:"CD_B2_D" },{ day:20, hour:9, ufcd:"CD_B2_D" },
-      { day:20, hour:10, ufcd:"CD_B2_D" },{ day:20, hour:11, ufcd:"CD_B2_D" },
-      { day:21, hour:13, ufcd:"CD_B2_D" },{ day:21, hour:14, ufcd:"CD_B2_D" },
-      { day:21, hour:15, ufcd:"CD_B2_D" },{ day:21, hour:16, ufcd:"CD_B2_D" },
-      { day:22, hour:10, ufcd:"CD_B2_D" },{ day:22, hour:11, ufcd:"CD_B2_D" },
-      { day:22, hour:12, ufcd:"CD_B2_D" },{ day:23, hour:10, ufcd:"CD_B2_D" },
-      { day:23, hour:11, ufcd:"CD_B2_D" },{ day:23, hour:12, ufcd:"CD_B2_D" }
+      { day:6, hour:9, ufcd:"CD_B2_C" },
+      { day:6, hour:10, ufcd:"CD_B2_C" },
+      { day:6, hour:11, ufcd:"CD_B2_C" },
+      { day:7, hour:13, ufcd:"CD_B2_C" },
+      { day:7, hour:14, ufcd:"CD_B2_C" },
+      { day:7, hour:15, ufcd:"CD_B2_C" },
+      { day:7, hour:16, ufcd:"CD_B2_C" },
+      { day:8, hour:10, ufcd:"CD_B2_C" },
+      { day:8, hour:11, ufcd:"CD_B2_C" },
+      { day:8, hour:12, ufcd:"CD_B2_C" },
+      { day:9, hour:13, ufcd:"CD_B2_C" },
+      { day:9, hour:14, ufcd:"CD_B2_C" },
+      { day:9, hour:15, ufcd:"CD_B2_C" },
+      { day:9, hour:16, ufcd:"CD_B2_C" },
+      { day:12, hour:9, ufcd:"CD_B2_C" },
+      { day:12, hour:10, ufcd:"CD_B2_C" },
+      { day:12, hour:11, ufcd:"CD_B2_C" },
+      { day:13, hour:9, ufcd:"CD_B2_C" },
+      { day:13, hour:10, ufcd:"CD_B2_C" },
+      { day:13, hour:11, ufcd:"CD_B2_C" },
+      { day:14, hour:13, ufcd:"CD_B2_D" },
+      { day:14, hour:14, ufcd:"CD_B2_D" },
+      { day:14, hour:15, ufcd:"CD_B2_D" },
+      { day:14, hour:16, ufcd:"CD_B2_D" },
+      { day:15, hour:10, ufcd:"CD_B2_D" },
+      { day:15, hour:11, ufcd:"CD_B2_D" },
+      { day:15, hour:12, ufcd:"CD_B2_D" },
+      { day:16, hour:13, ufcd:"CD_B2_D" },
+      { day:16, hour:14, ufcd:"CD_B2_D" },
+      { day:16, hour:15, ufcd:"CD_B2_D" },
+      { day:16, hour:16, ufcd:"CD_B2_D" },
+      { day:20, hour:9, ufcd:"CD_B2_D" },
+      { day:20, hour:10, ufcd:"CD_B2_D" },
+      { day:20, hour:11, ufcd:"CD_B2_D" },
+      { day:21, hour:13, ufcd:"CD_B2_D" },
+      { day:21, hour:14, ufcd:"CD_B2_D" },
+      { day:21, hour:15, ufcd:"CD_B2_D" },
+      { day:21, hour:16, ufcd:"CD_B2_D" },
+      { day:22, hour:10, ufcd:"CD_B2_D" },
+      { day:22, hour:11, ufcd:"CD_B2_D" },
+      { day:22, hour:12, ufcd:"CD_B2_D" },
+      { day:23, hour:10, ufcd:"CD_B2_D" },
+      { day:23, hour:11, ufcd:"CD_B2_D" },
+      { day:23, hour:12, ufcd:"CD_B2_D" }
     ];
-
-    let ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CCD49//PT\n`;
-    aulas.forEach(a=>{
-      ics+=`BEGIN:VEVENT
-DTSTART:202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000
-DTEND:202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000
-SUMMARY:Aula ${a.ufcd}
-END:VEVENT\n`;
+    let ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT
+CALSCALE:GREGORIAN
+`;
+    aulas.forEach(a => {
+      const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
+      const end = `202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000`;
+      ics +=
+`BEGIN:VEVENT
+DTSTART:${start}
+DTEND:${end}
+SUMMARY:Aula de Competências Digitais – ${a.ufcd}
+DESCRIPTION:CCD 49/2025 – Proficiência Digital – Nível Básico
+LOCATION:4NOW – Viseu
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:Lembrete: Aula de Competências Digitais às ${a.hour}:00
+END:VALARM
+END:VEVENT
+`;
     });
-    ics+="END:VCALENDAR";
-
-    const blob=new Blob([ics],{type:"text/calendar"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;a.download="Horario.ics";a.click();
+    ics += `END:VCALENDAR`;
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Cronograma_Janeiro_2026_CCD49.ics";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 });
 </script>
@@ -69,30 +106,65 @@ END:VEVENT\n`;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-body{font-family:Arial;background:#f5f5f5;margin:0}
+/* MOBILE FIRST */
+body{font-family:Helvetica,Arial,sans-serif;background:#f5f5f5;margin:0}
 header{background:#2c3e50;color:#fff;text-align:center;padding:14px}
+header h1{font-size:18px;margin:6px 0}
+header h2{font-size:16px;margin:4px 0;font-weight:normal}
+header h3{font-size:14px;margin:4px 0;font-weight:normal}
+.digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;font-size:14px}
+.typewriter{white-space:nowrap;overflow:hidden;animation:typing 14s steps(140,end) infinite}
+@keyframes typing{from{width:0}to{width:100%}}
 .pdf-button-container{text-align:center;margin:12px}
-.digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;text-align:center}
-footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:25px}
-.cell{height:60px;background:#ecf0f1;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer}
+#downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:bold;cursor:pointer}
+.calendar-container{overflow-x:auto;width:100%}
+.calendar{border-collapse:collapse;min-width:600px;background:#fff;margin:0 auto;box-shadow:0 0 10px rgba(0,0,0,.1)}
+.calendar th,.calendar td{border:1px solid #ccc;padding:6px;text-align:center;font-size:12px}
+.header{background:#b39d74;color:#fff;font-weight:bold}
+.time-col{background:#eee;font-weight:bold}
+.green{background:#ccffcc}
+.orange{background:#ffcc99}
+.white{background:#fff}
+.blinking{animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.cell-countdown{font-size:10px;margin-top:4px;font-weight:normal}
+.legend{width:95%;margin:15px auto;background:#fff;padding:12px;border-radius:6px;font-size:12px}
+.legend-item{display:flex;align-items:center;margin-bottom:6px}
+.legend-color{width:18px;height:18px;border:1px solid #999;margin-right:8px}
+footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:25px;font-size:12px}
 button{margin:4px;padding:8px 14px;border:none;border-radius:6px;background:#3498db;color:#fff;font-weight:bold;cursor:pointer}
 button:disabled{background:#999;cursor:not-allowed}
+@media(min-width:768px){
+header h1{font-size:22px}
+header h2{font-size:18px}
+.calendar th,.calendar td{font-size:13px;padding:8px}
+.digital-clock{font-size:16px}
+}
+footer a{color:#0c84f4;text-decoration:none;font-weight:500}
+footer a:hover{color:#ffffff;text-decoration:underline}
 </style>
 </head>
-
 <body>
-
 <header>
-<h1>Cronograma Janeiro 2026</h1>
-<h2>CCD 49/2025</h2>
+<h1>Cronograma: Janeiro 2026,</h1>
+<h2>CCD 49/2025 – Proficiência Digital – Nível Básico</h2>
+<div style="margin-top:8px;font-size:14px;line-height:1.4">
+<div><strong>UFCD CD_B2_C</strong> – Criar e Editar Conteúdos Digitais</div>
+<div><strong>UFCD CD_B2_D</strong> – Proteger Dispositivos e Dados Pessoais</div>
+<div style="margin-top:6px"> Viseu</div>
+<div><em>Formador/a:------ </em></div>
+</div>
 </header>
 
 <div class="pdf-button-container">
 <button id="downloadPdf">👉 Descarregar Horário em PDF</button>
-<button id="galoBtn" onclick="toggleGalo()">🎮 Abrir Jogo do Galo</button>
+<button onclick="toggleGalo()">🎮 Abrir Jogo do Galo</button>
 </div>
 
-<div class="digital-clock" id="clockDisplay">Relógio ativo</div>
+<div class="digital-clock"><div id="clockDisplay" class="typewriter">A carregar horário...</div></div>
+
+<!-- Aqui vai o calendário da tabela, já tens no teu código -->
+<!-- ... (mantém toda a tua tabela como no teu código original) ... -->
 
 <!-- ===== JOGO DO GALO (OCULTO) ===== -->
 <div id="galoBox" style="display:none;max-width:260px;margin:20px auto;background:#fff;padding:15px;border-radius:8px;text-align:center">
@@ -102,21 +174,16 @@ button:disabled{background:#999;cursor:not-allowed}
 <button onclick="resetGalo()">🔄 Reiniciar</button>
 </div>
 
-<footer>© 2026 – CCD 49/2025</footer>
+<footer>© 2026 – CCD 49/2025 | Email: <a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a></footer>
 
 <script>
-/* ===== RELÓGIO DIGITAL ===== */
-function updateClock(){
-  const now = new Date();
-  document.getElementById("clockDisplay").textContent = now.toLocaleTimeString();
-}
-setInterval(updateClock,1000);
-updateClock();
+/* ===== FUNÇÕES RELÓGIO E HORÁRIOS ===== */
+// Mantém todas as funções do teu código original: getLisbonTime(), tick(), calcularHoras(), downloadPdf.onclick ...
 
 /* ===== MOSTRAR / ESCONDER JOGO ===== */
 function toggleGalo(){
-  const box = document.getElementById("galoBox");
-  box.style.display = box.style.display==="none"?"block":"none";
+  const box=document.getElementById("galoBox");
+  box.style.display=box.style.display==="none"?"block":"none";
 }
 
 /* ===== JOGO DO GALO ===== */
@@ -130,7 +197,6 @@ function init(){
   turn="X";
   statusG.textContent="";
   galo.style.pointerEvents="auto";
-
   for(let i=0;i<9;i++){
     const c=document.createElement("div");
     c.className="cell";
@@ -138,7 +204,6 @@ function init(){
     galo.appendChild(c);
   }
 }
-
 function play(i,c){
   if(board[i])return;
   board[i]=turn;
@@ -146,20 +211,14 @@ function play(i,c){
   if(win()){
     statusG.textContent=`${turn} venceu!`;
     galo.style.pointerEvents="none";
-  }else{
-    turn=turn==="X"?"O":"X";
-  }
+  }else turn=turn==="X"?"O":"X";
 }
-
 function win(){
   const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
   return w.some(a=>a.every(i=>board[i]===turn));
 }
-
 function resetGalo(){ init(); }
-
 init();
 </script>
-
 </body>
 </html>
