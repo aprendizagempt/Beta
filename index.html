@@ -426,7 +426,7 @@ function tick(){
    const diff = end - now;
    const m = Math.floor(diff / 60000);
    const s = Math.floor((diff / 1000) % 60);
-   cd.textContent = `Termina em ${m} minutos e ${s} segundos`;
+   cd.textContent = `Termina em \( {m} minuto \){m !== 1 ? 's' : ''} e \( {s} segundo \){s !== 1 ? 's' : ''}`;
    c.classList.add('blinking');
    clockDisplay.textContent=`${String(info.day).padStart(2,'0')}/01/2026 - ${String(info.hour).padStart(2,'0')}:00 | Aula: ${c.querySelector('span').textContent} - A decorrer`;
   }else cd.textContent='';
@@ -434,7 +434,7 @@ function tick(){
  if(!aulaAtiva){
   const next=[...document.querySelectorAll('.cell')].map(c=>{
    const i=parseId(c.id); if(!i||!c.querySelector('span'))return null;
-   return{start:new Date(2026,0,i.day,i.hour),name:c.querySelector('span').textContent, day: i.day, hour: i.hour};
+   return{start:new Date(2026,0,i.day,i.hour),name:c.querySelector('span').textContent};
   }).filter(x=>x&&x.start>now).sort((a,b)=>a.start-b.start)[0];
   if(next){
    const diff = next.start - now;
@@ -445,9 +445,9 @@ function tick(){
    const horaAtual=now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
    const dataProx=next.start.toLocaleDateString('pt-PT');
    const horaProx=next.start.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
-   clockDisplay.textContent=`${dataAtual} - ${horaAtual} | Faltam ${days} dias, ${hours} horas e \( {minutes} minutos para a próxima aula ( \){next.name}) em ${dataProx} às ${horaProx}`;
+   clockDisplay.textContent=`${dataAtual} - ${horaAtual} | Faltam \( {days} dia \){days !== 1 ? 's' : ''}, \( {hours} hora \){hours !== 1 ? 's' : ''} e \( {minutes} minuto \){minutes !== 1 ? 's' : ''} para a próxima aula (${next.name}) em ${dataProx} às ${horaProx}`;
   }else {
-   clockDisplay.textContent='Sem aulas futuras agendadas. Joga o Jogo do Galo!';
+   clockDisplay.textContent='Sem aulas futuras agendadas. Diverte-te com o Jogo do Galo!';
    ticContainer.style.display = 'flex';
    createBoard();
   }
@@ -477,7 +477,7 @@ const ticClose = document.getElementById('ticClose');
 const playBtn = document.getElementById('playTicTacToe');
 
 let board = ['', '', '', '', '', '', '', '', ''];
-let currentPlayer = 'X'; // Jogador humano é sempre X
+let currentPlayer = 'X';
 let gameActive = true;
 
 function createBoard() {
@@ -515,11 +515,10 @@ function handleCellClick(e) {
   
   currentPlayer = 'O';
   ticStatus.textContent = 'Vez do Bot (O)';
-  setTimeout(botMove, 600); // Pequena pausa para parecer mais natural
+  setTimeout(botMove, 600);
 }
 
 function botMove() {
-  // Estratégia simples: bloquear vitória do jogador ou tentar ganhar, senão escolher aleatório
   let move = bestMove();
   if (move === -1) move = board.findIndex(cell => cell === '');
   
@@ -542,7 +541,6 @@ function botMove() {
 }
 
 function bestMove() {
-  // Verificar se o bot pode ganhar
   for (let i = 0; i < 9; i++) {
     if (board[i] === '') {
       board[i] = 'O';
@@ -550,7 +548,6 @@ function bestMove() {
       board[i] = '';
     }
   }
-  // Verificar se precisa bloquear o jogador
   for (let i = 0; i < 9; i++) {
     if (board[i] === '') {
       board[i] = 'X';
@@ -558,9 +555,7 @@ function bestMove() {
       board[i] = '';
     }
   }
-  // Centro se disponível
   if (board[4] === '') return 4;
-  // Cantos
   const corners = [0,2,6,8].filter(i => board[i] === '');
   if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
   return -1;
@@ -586,7 +581,6 @@ ticClose.onclick = () => {
   ticContainer.style.display = 'none';
 };
 
-// Fechar ao clicar fora da caixa
 ticContainer.addEventListener('click', (e) => {
   if (e.target === ticContainer) ticContainer.style.display = 'none';
 });
