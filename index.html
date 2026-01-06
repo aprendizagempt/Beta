@@ -4,11 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Horário CCD 49/2025</title>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const btn = document.createElement("button");
+  btn.id = "downloadIcs";
+  btn.textContent = "📅 Adicionar aulas ao Calendário";
+  btn.style.marginLeft = "8px";
+  btn.style.background = "#3498db";
+  btn.style.color = "#fff";
+  btn.style.border = "none";
+  btn.style.padding = "10px 20px";
+  btn.style.borderRadius = "6px";
+  btn.style.fontWeight = "bold";
+  btn.style.cursor = "pointer";
+
+  document.querySelector(".pdf-button-container").appendChild(btn);
+
+  btn.onclick = () => {
+
+    const aulas = [
+      { day:6,  hour:9, ufcd:"CD_B2_C", duration:3 },
+      { day:7,  hour:13, ufcd:"CD_B2_C", duration:4 },
+      { day:8,  hour:10, ufcd:"CD_B2_C", duration:3 },
+      { day:9,  hour:13, ufcd:"CD_B2_C", duration:4 },
+      { day:12, hour:9, ufcd:"CD_B2_C", duration:3 },
+      { day:13, hour:9, ufcd:"CD_B2_C", duration:3 },
+      { day:14, hour:13, ufcd:"CD_B2_D", duration:4 },
+      { day:15, hour:10, ufcd:"CD_B2_D", duration:3 },
+      { day:16, hour:13, ufcd:"CD_B2_D", duration:4 },
+      { day:20, hour:9, ufcd:"CD_B2_D", duration:3 },
+      { day:21, hour:13, ufcd:"CD_B2_D", duration:4 },
+      { day:22, hour:10, ufcd:"CD_B2_D", duration:3 },
+      { day:23, hour:10, ufcd:"CD_B2_D", duration:3 }
+    ];
+
+    let ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IEFP CCD 49/2025//Cronograma Janeiro 2026//PT
+CALSCALE:GREGORIAN
+`;
+
+    aulas.forEach(a => {
+      const start = `202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000`;
+      const end   = `202601${String(a.day).padStart(2,"0")}T${String(a.hour+a.duration).padStart(2,"0")}0000`;
+
+      ics +=
+`BEGIN:VEVENT
+DTSTART:${start}
+DTEND:${end}
+SUMMARY:Aula de Competências Digitais – ${a.ufcd}
+DESCRIPTION:CCD 49/2025 – Proficiência Digital – Nível Básico
+LOCATION:4NOW – Viseu
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:Lembrete: Aula de Competências Digitais às ${a.hour}:00
+END:VALARM
+END:VEVENT
+`;
+    });
+
+    ics += `END:VCALENDAR`;
+
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Cronograma_Janeiro_2026_CCD49.ics";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 body{font-family:Helvetica,Arial,sans-serif;background:#f5f5f5;margin:0}
 header{background:#2c3e50;color:#fff;text-align:center;padding:14px}
 header h1{font-size:18px;margin:6px 0}
 header h2{font-size:16px;margin:4px 0;font-weight:normal}
+header h3{font-size:14px;margin:4px 0;font-weight:normal}
+.digital-clock{background:#b39d74;text-align:center;padding:10px;margin:15px auto;width:95%;border-radius:6px;font-weight:bold;font-size:14px}
+.typewriter{white-space:nowrap;overflow:hidden;animation:typing 14s steps(140,end) infinite}
+@keyframes typing{from{width:0}to{width:100%}}
+.pdf-button-container{text-align:center;margin:12px}
+#downloadPdf{background:#e74c3c;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:bold;cursor:pointer}
 .calendar-container{overflow-x:auto;width:100%}
 .calendar{border-collapse:collapse;min-width:600px;background:#fff;margin:0 auto;box-shadow:0 0 10px rgba(0,0,0,.1)}
 .calendar th,.calendar td{border:1px solid #ccc;padding:6px;text-align:center;font-size:12px}
@@ -17,12 +103,28 @@ header h2{font-size:16px;margin:4px 0;font-weight:normal}
 .green{background:#ccffcc}
 .orange{background:#ffcc99}
 .white{background:#fff}
+.blinking{animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.cell-countdown{font-size:10px;margin-top:4px;font-weight:normal}
 .legend{width:95%;margin:15px auto;background:#fff;padding:12px;border-radius:6px;font-size:12px}
 .legend-item{display:flex;align-items:center;margin-bottom:6px}
 .legend-color{width:18px;height:18px;border:1px solid #999;margin-right:8px}
 footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:25px;font-size:12px}
-footer a{color:#0c84f4;text-decoration:none;font-weight:500;}
-footer a:hover{color:#ffffff;text-decoration:underline;}
+@media(min-width:768px){
+header h1{font-size:22px}
+header h2{font-size:18px}
+.calendar th,.calendar td{font-size:13px;padding:8px}
+.digital-clock{font-size:16px}
+}
+footer a{
+  color:#0c84f4;
+  text-decoration:none;
+  font-weight:500;
+}
+footer a:hover{
+  color:#ffffff;
+  text-decoration:underline;
+}
 </style>
 </head>
 <body>
@@ -33,150 +135,132 @@ footer a:hover{color:#ffffff;text-decoration:underline;}
 <div><strong>UFCD CD_B2_C</strong> – Criar e Editar Conteúdos Digitais</div>
 <div><strong>UFCD CD_B2_D</strong> – Proteger Dispositivos e Dados Pessoais</div>
 <div style="margin-top:6px">Viseu</div>
-<div><em>Formador/a: ------</em></div>
+<div><em>Formador/a:------ </em></div>
 </div>
 </header>
-
+<div class="pdf-button-container"><button id="downloadPdf">👉 Descarregar Horário em PDF</button></div>
+<div class="digital-clock"><div id="clockDisplay" class="typewriter">A carregar horário...</div></div>
 <div class="calendar-container">
-<table class="calendar">
+<table class="calendar" id="scheduleTable">
 <thead>
 <tr>
+<th class="header"></th>
+<th class="header">Segunda</th>
+<th class="header">Terça</th>
+<th class="header">Quarta</th>
+<th class="header">Quinta</th>
+<th class="header">Sexta</th>
+<th class="header">Segunda</th>
+<th class="header">Terça</th>
+<th class="header">Quarta</th>
+<th class="header">Quinta</th>
+<th class="header">Sexta</th>
+</tr>
+<tr>
 <th class="header">Hora</th>
-<th class="header">06/01</th>
-<th class="header">07/01</th>
-<th class="header">08/01</th>
-<th class="header">09/01</th>
-<th class="header">12/01</th>
-<th class="header">13/01</th>
-<th class="header">14/01</th>
-<th class="header">15/01</th>
-<th class="header">16/01</th>
-<th class="header">20/01</th>
-<th class="header">21/01</th>
-<th class="header">22/01</th>
-<th class="header">23/01</th>
+<th class="header">06/01</th><th class="header">07/01</th><th class="header">08/01</th><th class="header">09/01</th>
+<th class="header">12/01</th><th class="header">13/01</th><th class="header">14/01</th><th class="header">15/01</th>
+<th class="header">16/01</th><th class="header">20/01</th><th class="header">21/01</th><th class="header">22/01</th><th class="header">23/01</th>
 </tr>
 </thead>
 <tbody>
 <tr><td class="time-col">09–10</td>
-<td class="green">CD_B2_C</td>
-<td class="white">Manhã Livre</td>
-<td class="white"></td>
-<td class="white">Manhã Livre</td>
-<td class="green">CD_B2_C</td>
-<td class="green">CD_B2_C</td>
+<td class="green cell" id="d6-9"><span>CD_B2_C</span></td>
+<td class="white">Livre</td>
 <td class="white"></td>
 <td class="white"></td>
+<td class="green cell" id="d12-9"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-9"><span>CD_B2_C</span></td>
 <td class="white"></td>
-<td class="green">CD_B2_C</td>
 <td class="white"></td>
 <td class="white"></td>
-<td class="white"></td> <!-- 23/01 vazio -->
+<td class="green cell" id="d20-9"><span>CD_B2_D</span></td>
+<td class="white"></td>
+<td class="white"></td>
 </tr>
 <tr><td class="time-col">10–11</td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="green">CD_B2_D</td>
+<td class="green cell" id="d6-10"><span>CD_B2_C</span></td>
+<td class="white">Livre</td>
+<td class="green cell" id="d8-10"><span>CD_B2_C</span></td>
+<td class="orange cell" id="d15-10"><span>CD_B2_D</span></td>
+<td class="green cell" id="d12-10"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-10"><span>CD_B2_C</span></td>
+<td class="orange cell" id="d14-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d15-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d16-10"><span>CD_B2_D</span></td>
+<td class="green cell" id="d20-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d21-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d22-10"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d23-10"><span>CD_B2_D</span></td>
 </tr>
 <tr><td class="time-col">11–12</td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="green">CD_B2_D</td>
+<td class="green cell" id="d6-11"><span>CD_B2_C</span></td>
+<td class="white">Livre</td>
+<td class="green cell" id="d8-11"><span>CD_B2_C</span></td>
+<td class="orange cell" id="d15-11"><span>CD_B2_D</span></td>
+<td class="green cell" id="d12-11"><span>CD_B2_C</span></td>
+<td class="green cell" id="d13-11"><span>CD_B2_C</span></td>
+<td class="orange cell" id="d14-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d15-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d16-11"><span>CD_B2_D</span></td>
+<td class="green cell" id="d20-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d21-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d22-11"><span>CD_B2_D</span></td>
+<td class="orange cell" id="d23-11"><span>CD_B2_D</span></td>
 </tr>
 <tr><td class="time-col">12–13</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
-<td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td>
+<td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td><td class="white">Almoço</td>
 <td class="white">Almoço</td>
 </tr>
 <tr><td class="time-col">13–14</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="white"></td>
+<td class="white">Livre</td><td class="green cell" id="d7-13"><span>CD_B2_C</span></td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="orange cell" id="d14-13"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d16-13"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d21-13"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="white">Livre</td>
 </tr>
 <tr><td class="time-col">14–15</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="white"></td>
+<td class="white">Livre</td><td class="green cell" id="d7-14"><span>CD_B2_C</span></td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="orange cell" id="d14-14"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d16-14"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d21-14"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="white">Livre</td>
 </tr>
 <tr><td class="time-col">15–16</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="white"></td>
+<td class="white">Livre</td><td class="green cell" id="d7-15"><span>CD_B2_C</span></td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="orange cell" id="d14-15"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d16-15"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d21-15"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="white">Livre</td>
 </tr>
 <tr><td class="time-col">16–17</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="green">CD_B2_C</td>
-<td class="white"></td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="green">CD_B2_D</td>
-<td class="white"></td>
-<td class="white"></td>
+<td class="white">Livre</td><td class="green cell" id="d7-16"><span>CD_B2_C</span></td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="white">Livre</td><td class="white">Livre</td>
+<td class="orange cell" id="d14-16"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d16-16"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="orange cell" id="d21-16"><span>CD_B2_D</span></td>
+<td class="white">Livre</td>
+<td class="white">Livre</td>
 </tr>
 </tbody>
 </table>
@@ -185,9 +269,17 @@ footer a:hover{color:#ffffff;text-decoration:underline;}
 <div class="legend">
 <div class="legend-item"><div class="legend-color" style="background:#ccffcc"></div>CD_B2_C – Criar e Editar Conteúdos Digitais</div>
 <div class="legend-item"><div class="legend-color" style="background:#ffcc99"></div>CD_B2_D – Proteger Dispositivos e Dados Pessoais</div>
-<div class="legend-item"><div class="legend-color" style="background:#fff"></div>Almoço / Tempo Livre</div>
+<div class="legend-item"><div class="legend-color" style="background:#fff"></div>Tempo Livre / Almoço</div>
 </div>
 
-<footer>© 2026 – CCD 49/2025 | Email: <a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a></footer>
-</body>
-</html>
+<div class="legend" id="hourSummary">
+<h3>Resumo de Horas de Formação</h3>
+<ul>
+<li><strong>CD_B2_C – Criar e Editar Conteúdos Digitais:</strong> <span id="hoursC">0</span> horas</li>
+<li><strong>CD_B2_D – Proteger Dispositivos e Dados Pessoais:</strong> <span id="hoursD">0</span> horas</li>
+<li><strong>Total:</strong> <span id="hoursTotal">0</span> horas</li>
+</ul>
+</div>
+
+<footer>© 2026 – CCD 49/2025 |
+ Email: <a href="mailto:aprendizagem.pt@gmail.com">aprendizagem.pt@gmail.com</a>
