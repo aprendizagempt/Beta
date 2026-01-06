@@ -423,9 +423,10 @@ function tick(){
   const cd=c.querySelector('.cell-countdown');
   if(now>=start&&now<end){
    aulaAtiva=true;
-   const m=Math.floor((end-now)/60000);
-   const s=Math.floor((end-now)/1000)%60;
-   cd.textContent=`Termina em ${m}m ${s}s`;
+   const diff = end - now;
+   const m = Math.floor(diff / 60000);
+   const s = Math.floor((diff / 1000) % 60);
+   cd.textContent = `Termina em ${m} minutos e ${s} segundos`;
    c.classList.add('blinking');
    clockDisplay.textContent=`${String(info.day).padStart(2,'0')}/01/2026 - ${String(info.hour).padStart(2,'0')}:00 | Aula: ${c.querySelector('span').textContent} - A decorrer`;
   }else cd.textContent='';
@@ -433,16 +434,23 @@ function tick(){
  if(!aulaAtiva){
   const next=[...document.querySelectorAll('.cell')].map(c=>{
    const i=parseId(c.id); if(!i||!c.querySelector('span'))return null;
-   return{start:new Date(2026,0,i.day,i.hour),name:c.querySelector('span').textContent};
+   return{start:new Date(2026,0,i.day,i.hour),name:c.querySelector('span').textContent, day: i.day, hour: i.hour};
   }).filter(x=>x&&x.start>now).sort((a,b)=>a.start-b.start)[0];
   if(next){
-   const days=Math.ceil((next.start-now)/(1000*60*60*24));
+   const diff = next.start - now;
+   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
    const dataAtual=now.toLocaleDateString('pt-PT');
    const horaAtual=now.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
    const dataProx=next.start.toLocaleDateString('pt-PT');
    const horaProx=next.start.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
-   clockDisplay.textContent=`${dataAtual} - ${horaAtual} | Faltam \( {days} dias para a próxima aula ( \){next.name}) em ${dataProx} às ${horaProx}`;
-  }else clockDisplay.textContent='Sem aulas futuras agendadas';
+   clockDisplay.textContent=`${dataAtual} - ${horaAtual} | Faltam ${days} dias, ${hours} horas e \( {minutes} minutos para a próxima aula ( \){next.name}) em ${dataProx} às ${horaProx}`;
+  }else {
+   clockDisplay.textContent='Sem aulas futuras agendadas. Joga o Jogo do Galo!';
+   ticContainer.style.display = 'flex';
+   createBoard();
+  }
  }
 }
 function calcularHoras(){
