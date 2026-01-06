@@ -9,7 +9,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.createElement("button");
-  btn.id = "downloadIcs";
   btn.textContent = "📅 Adicionar aulas ao Calendário";
   btn.style.marginLeft = "8px";
   btn.style.background = "#3498db";
@@ -47,20 +46,22 @@ document.addEventListener("DOMContentLoaded", () => {
       { day:23, hour:11, ufcd:"CD_B2_D" },{ day:23, hour:12, ufcd:"CD_B2_D" }
     ];
 
-    let ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CCD49//PT\n`;
-    aulas.forEach(a=>{
-      ics+=`BEGIN:VEVENT
+    let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CCD49//PT\n";
+    aulas.forEach(a => {
+      ics += `BEGIN:VEVENT
 DTSTART:202601${String(a.day).padStart(2,"0")}T${String(a.hour).padStart(2,"0")}0000
 DTEND:202601${String(a.day).padStart(2,"0")}T${String(a.hour+1).padStart(2,"0")}0000
 SUMMARY:Aula ${a.ufcd}
 END:VEVENT\n`;
     });
-    ics+="END:VCALENDAR";
+    ics += "END:VCALENDAR";
 
-    const blob=new Blob([ics],{type:"text/calendar"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;a.download="Horario.ics";a.click();
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Horario.ics";
+    a.click();
   };
 });
 </script>
@@ -89,7 +90,7 @@ footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:2
 
 <div class="digital-clock">Relógio ativo</div>
 
-<!-- ===== JOGO DO GALO (OCULTO) ===== -->
+<!-- ===== JOGO DO GALO ===== -->
 <div id="galoBox" style="display:none;max-width:260px;margin:20px auto;background:#fff;padding:15px;border-radius:8px;text-align:center">
 <h3>Jogo do Galo</h3>
 <div id="galo" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
@@ -100,48 +101,46 @@ footer{background:#2c3e50;color:#fff;text-align:center;padding:12px;margin-top:2
 <footer>© 2026 – CCD 49/2025</footer>
 
 <script>
-/* ===== MOSTRAR / ESCONDER ===== */
 function toggleGalo(){
-  const box=document.getElementById("galoBox");
-  box.style.display=box.style.display==="none"?"block":"none";
+  const box = document.getElementById("galoBox");
+  box.style.display = box.style.display === "none" ? "block" : "none";
 }
 
-/* ===== JOGO DO GALO ===== */
-const galo=document.getElementById("galo");
-const statusG=document.getElementById("galoStatus");
-let board,turn;
+const galo = document.getElementById("galo");
+const statusG = document.getElementById("galoStatus");
+let board, turn;
 
 function init(){
-  galo.innerHTML="";
-  board=Array(9).fill("");
-  turn="X";
-  statusG.textContent="";
-  galo.style.pointerEvents="auto";
+  galo.innerHTML = "";
+  board = Array(9).fill("");
+  turn = "X";
+  statusG.textContent = "";
 
   for(let i=0;i<9;i++){
-    const c=document.createElement("div");
-    c.className="cell";
-    c.onclick=()=>play(i,c);
+    const c = document.createElement("div");
+    c.className = "cell";
+    c.onclick = () => play(i,c);
     galo.appendChild(c);
   }
 }
+
 function play(i,c){
-  if(board[i])return;
-  board[i]=turn;
-  c.textContent=turn;
+  if(board[i]) return;
+  board[i] = turn;
+  c.textContent = turn;
   if(win()){
-    statusG.textContent=`${turn} venceu!`;
-    galo.style.pointerEvents="none";
-  }else{
-    turn=turn==="X"?"O":"X";
+    statusG.textContent = `${turn} venceu!`;
+  } else {
+    turn = turn === "X" ? "O" : "X";
   }
 }
-function win(){
-  const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  return w.some(a=>a.every(i=>board[i]===turn));
-}
-function resetGalo(){ init(); }
 
+function win(){
+  const w = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  return w.some(a => a.every(i => board[i] === turn));
+}
+
+function resetGalo(){ init(); }
 init();
 </script>
 
